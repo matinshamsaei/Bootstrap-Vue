@@ -1,0 +1,91 @@
+// no caret in dropdown
+.no-caret {
+  &::after {
+    display: none;
+  }
+}
+
+*[dir='rtl'] {
+  .modal {
+    .btn-close {
+      margin-right: auto !important;
+      margin-left: unset !important;
+    }
+  }
+}
+
+// custom range styles for input group
+.input-group > .custom-range {
+  display: block;
+  height: calc(2.25rem + 2px);
+  padding: 0 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.input-group > .custom-range {
+  position: relative;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+}
+.input-group > .custom-range:focus {
+  z-index: 3;
+}
+.input-group-sm > .custom-range {
+  height: calc(1.8125rem + 2px);
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+.input-group-lg > .custom-range {
+  height: calc(2.875rem + 2px);
+  padding-left: 0 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+}
+.input-group > .custom-range:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group > .custom-range:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.input-group .custom-range:focus {
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+// Fade Animation
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade {
+  animation: fadeIn 1s;
+}
+
+// no resize for textarea
+.no-resize {
+  resize: none;
+}
+
+// append-custom
+.append-custom {
+  border-radius: 6px 0px 0px 6px !important;
+}
