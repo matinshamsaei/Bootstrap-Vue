@@ -1,0 +1,11 @@
+{
+    "name": "routaa-ui-kit",
+    "description": "Routaa UI Kit",
+    "authors": "Routaa Team",
+    "version": "0.0.1",
+    "main": "./routaa-ui-kit.es.js.map",
+    "dependencies": {},
+    "publishConfig": {
+        "registry": "http://192.168.7.215:8081/repository/npm-br"
+    }
+}
