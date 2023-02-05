@@ -23,9 +23,9 @@ const attrs = useAttrs()
 </script>
 
 <template>
-  <NuxtLink v-if="props.to" :to="props.to" :target="props.target" v-bind="attrs">
+  <router-link v-if="props.to" :to="props.to" :target="props.target" v-bind="attrs">
     <slot />
-  </NuxtLink>
+  </router-link>
 
   <a v-else :href="props.href" :target="props.target" v-bind="attrs">
     <slot />

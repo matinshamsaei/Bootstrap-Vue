@@ -1,5 +1,5 @@
 <script setup>
-import RLink from '@/components/RLink'
+import RLink from '../RLink/index.vue'
 import { useAttrs } from 'vue'
 
 const props = defineProps({

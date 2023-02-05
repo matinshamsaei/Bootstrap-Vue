@@ -6,7 +6,7 @@ type ImgAttrs = {
   alt?: string
   fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside'
   preload?: boolean
-  loading?: 'lazy'
+  loading?: string
   lazy?: boolean
   image?: boolean
   fluid?: boolean
@@ -26,6 +26,7 @@ const imgProps = withDefaults(defineProps<ImgAttrs>(), {
   thumbnail: false,
   center: false,
   start: false,
+  loading: 'lazy',
   end: false
 })
 

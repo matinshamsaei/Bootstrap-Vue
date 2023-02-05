@@ -102,7 +102,7 @@ const rCardTitleAttrs = {
 const rCardImgAttrs = {
   src: cardProps.imgSrc,
   alt: cardProps.imgAlt,
-  loading: cardProps.imgLoading,
+  // loading: cardProps.imgLoading,
   lazy: cardProps.imgLazy,
   class: cardProps.imgClass,
   fluid: cardProps.imgFluid,

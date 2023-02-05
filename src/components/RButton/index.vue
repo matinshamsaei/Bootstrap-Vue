@@ -1,7 +1,9 @@
 <script setup>
-import RLink from '@/components/RLink/index.vue';
+import RLink from '../RLink/index.vue';
 // import { defineAsyncComponent } from 'vue'
 // const RLink = defineAsyncComponent(() => import('@/components/RLink/index.vue'))
+import { useAttrs, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   to: {
