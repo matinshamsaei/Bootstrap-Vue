@@ -1,6 +1,6 @@
 import type { App, Plugin } from 'vue'
 
-import './styles/styles.scss'
+import './assets/scss/style.scss'
 
 import * as Components from './components'
 // import * as Directives from './directives/exports'

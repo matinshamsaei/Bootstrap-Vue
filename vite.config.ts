@@ -27,8 +27,8 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: resolve(__dirname, 'src/RoutaaUiKit.ts'),
-      name: 'bootstrap-vue',
-      fileName: (format) => `bootstrap-vue.${format}.js`
+      name: 'routaa-ui-kit',
+      fileName: (format) => `routaa-ui-kit.${format}.js`
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -45,16 +45,18 @@ export default defineConfig({
         'bootstrap/js/dist/tooltip',
         'vue',
         // '@popperjs/core',
-        '@vueuse/core'
+        'vue-router',
+        '@vueuse/core',
       ],
       output: {
         exports: 'named',
-        assetFileNames: `bootstrap-vue.[ext]`, //without this, it generates build/styles.css
+        assetFileNames: `routaa-ui-kit.[ext]`, //without this, it generates build/styles.css
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
           vue: 'Vue',
           bootstrap: 'Bootstrap',
+          'vue-router': 'vue-router',
           '@vueuse/core': 'vueuse',
           'bootstrap/js/dist/collapse': 'Collapse',
           'bootstrap/js/dist/alert': 'Alert',
