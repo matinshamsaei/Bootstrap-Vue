@@ -25,6 +25,7 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    emptyOutDir: false,
     lib: {
       entry: resolve(__dirname, 'src/RoutaaUiKit.ts'),
       name: 'routaa-ui-kit',
@@ -46,7 +47,7 @@ export default defineConfig({
         'vue',
         // '@popperjs/core',
         'vue-router',
-        '@vueuse/core',
+        '@vueuse/core'
       ],
       output: {
         exports: 'named',
