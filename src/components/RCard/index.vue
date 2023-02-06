@@ -65,6 +65,7 @@ import RCardTitle from './RCardTitle.vue';
 import RCardImg from './RCardImg.vue';
 import RCardSubTitle from './RCardSubtitle.vue';
 import RCardHeader from './RCardHeader.vue';
+import RCardBody from './RCardBody.vue';
 import RCardFooter from './RCardFooter.vue';
 
 // const RCardTitle = defineAsyncComponent(() => import('./RCardTitle.vue'))
