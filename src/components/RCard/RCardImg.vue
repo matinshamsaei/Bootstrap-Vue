@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { useAttrs } from 'vue'
-import RImg from '@/components/RImg/index.vue';
+import RImg from '../RImg/index.vue';
 
 // const RImg = defineAsyncComponent(() => import('@/components/RImg/index.vue'))
 

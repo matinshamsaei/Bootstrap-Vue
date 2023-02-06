@@ -1,5 +1,5 @@
 <script setup>
-import RButton from '@/components/RButton/index.vue';
+import RButton from '../RButton/index.vue';
 // import { defineAsyncComponent } from 'vue'
 // const RButton = defineAsyncComponent(() => import('../RButton/index.vue'))
 

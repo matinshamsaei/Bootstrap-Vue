@@ -6,10 +6,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+stats.html
 
 node_modules
 .DS_Store
-dist
+dist/*
+!dist/package.json
 dist-ssr
 coverage
 *.local

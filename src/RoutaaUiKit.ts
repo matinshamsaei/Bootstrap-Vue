@@ -3,12 +3,7 @@ import type { App, Plugin } from 'vue'
 import './assets/scss/style.scss'
 
 import * as Components from './components'
-// import * as Directives from './directives/exports'
-// import { createBreadcrumb } from './composables'
-// import { BootstrapVueOptions } from './types'
 
-// Inject all components into the global @vue/runtime-core
-// This allows intellisense in templates w/out direct importing
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     RAlert: typeof Components.RAlert
@@ -56,25 +51,11 @@ const plugin: Plugin = {
     Object.entries(Components).forEach(([name, component]) => {
       app.component(name, component)
     })
-
-    //     Object.entries(Directives).forEach(([name, component]) => {
-    //       app.directive(name, component)
-    //     })
-
-    //     createBreadcrumb(app)
   }
 }
 
 export * from './components'
 export * as Components from './components'
-// export * from './directives/exports'
-// export * as Directives from './directives/exports'
-// export * from './composables/exports'
-// export * as Composables from './composables/exports'
-// export * from './utils/exports'
-// export * as Utils from './utils/exports'
-// export * from './types/exports'
-// export * as Types from './types/exports'
 
 export { plugin as BootstrapVueNext }
 export default plugin

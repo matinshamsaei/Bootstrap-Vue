@@ -3,7 +3,7 @@
 // const RFormSelectOption = defineAsyncComponent(() => import('@/components/RForm/RFormSelect/RFormSelectOption.vue'))
 
 import { useAttrs } from 'vue'
-import RFormSelectOption from './RFormSelectOption'
+import RFormSelectOption from './RFormSelectOption.vue'
 
 const props = defineProps({
   modelValue: {

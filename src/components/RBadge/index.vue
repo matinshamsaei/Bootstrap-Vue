@@ -1,5 +1,5 @@
 <script setup>
-import RLink from '@/components/RLink/index.vue';
+import RLink from '../RLink/index.vue';
 // import { defineAsyncComponent } from 'vue'
 // const RLink = defineAsyncComponent(() => import('../RLink/index.vue'))
 
