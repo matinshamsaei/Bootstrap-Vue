@@ -6,7 +6,6 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue({
@@ -21,19 +20,18 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
+    extensions: ['.js', '.ts', '.json', '.vue']
   },
   build: {
     sourcemap: true,
     emptyOutDir: false,
+    minify: true,
     lib: {
       entry: resolve(__dirname, 'src/RoutaaUiKit.ts'),
       name: 'routaa-ui-kit',
       fileName: (format) => `routaa-ui-kit.${format}.js`
     },
     rollupOptions: {
-      // make sure to externalize deps that shouldn't be bundled
-      // into your library
       external: [
         'bootstrap',
         'bootstrap/js/dist/alert',
@@ -45,15 +43,12 @@ export default defineConfig({
         'bootstrap/js/dist/dropdown',
         'bootstrap/js/dist/tooltip',
         'vue',
-        // '@popperjs/core',
         'vue-router',
         '@vueuse/core'
       ],
       output: {
         exports: 'named',
-        assetFileNames: `routaa-ui-kit.[ext]`, //without this, it generates build/styles.css
-        // Provide global variables to use in the UMD build
-        // for externalized deps
+        assetFileNames: `routaa-ui-kit.[ext]`,
         globals: {
           vue: 'Vue',
           bootstrap: 'Bootstrap',

@@ -3,7 +3,6 @@ import type { App, Plugin } from 'vue'
 import './assets/scss/style.scss'
 
 import * as Components from './components'
-
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     RAlert: typeof Components.RAlert
