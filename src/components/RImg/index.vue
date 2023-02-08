@@ -1,25 +1,7 @@
 <script setup lang="ts">
 import type { ImgHTMLAttributes } from 'vue'
+import type { ImgProps } from '@/types'
 import { useAttrs } from 'vue'
-
-type ImgProps = {
-  src: string
-  alt: string
-  blank?: boolean
-  blankColor?: string
-  center?: boolean
-  block?: boolean
-  fluid?: boolean
-  fluidGrow?: boolean
-  rounded?: string | boolean
-  sizes?: string
-  lazy?: boolean
-  thumbnail?: boolean
-  height?: string | number
-  width?: string | number
-  start?: boolean
-  end?: boolean
-}
 
 // Blank image with fill template
 const BLANK_TEMPLATE =
@@ -87,6 +69,7 @@ if (imgProps.start) {
 }
 
 const imgClass = [
+  ...imgProps.class,
   {
     'img-fluid': imgProps.fluid,
     'img-thumbnail': imgProps.thumbnail,
