@@ -1,37 +1,30 @@
-<script setup>
+<script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
 import { useAttrs, computed } from 'vue'
 
-const props = defineProps({
-  modelValue: {
-    type: [String, Number],
-    required: true
-  },
-  type: {
-    type: String,
-    default: 'text',
-    validator(value) {
-      return ['text', 'range', 'color', 'password', 'number', 'email', 'url', 'search', 'date'].includes(value)
-    }
-  },
-  size: {
-    type: String,
-    default: 'md',
-    validator(value) {
-      return ['sm', 'md', 'lg'].includes(value)
-    }
-  },
-  plainText: {
-    type: Boolean,
-    default: false
-  },
-  debounce: {
-    type: [String, Number],
-    default: '300'
-  }
+export interface Props {
+  modelValue: string | number
+  type?: 'text' | 'range' | 'color' | 'password' | 'number' | 'email' | 'url' | 'search' | 'date'
+  size?: 'sm' | 'md' | 'lg'
+  plainText?: boolean
+  debounce?: string | number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  type: 'text',
+  size: 'md',
+  plainText: false,
+  debounce: '300'
 })
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: string): void
+}>()
+
+const debouncedFn = useDebounceFn((event: Event) => {
+  const input = event.target as HTMLInputElement
+  emits('update:modelValue', input.value)
+}, +props.debounce)
 
 const inputClass = computed(() => {
   if (props.type === 'range') return 'form-range'
@@ -41,10 +34,6 @@ const inputClass = computed(() => {
 })
 
 const attrs = useAttrs()
-
-const debouncedFn = useDebounceFn((event) => {
-  emits('update:modelValue', event)
-}, props.debounce)
 </script>
 
 <template>
@@ -53,6 +42,6 @@ const debouncedFn = useDebounceFn((event) => {
     :value="props.modelValue"
     v-bind="attrs"
     :class="[inputClass, `form-control-${props.size}`]"
-    @input="debouncedFn($event.target.value)"
+    @input="debouncedFn"
   />
 </template>
