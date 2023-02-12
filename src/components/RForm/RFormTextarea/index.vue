@@ -1,25 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { useAttrs, computed } from 'vue'
 
-const props = defineProps({
-  modelValue: {
-    required: true
-  },
-  size: {
-    type: String,
-    default: 'md',
-    validator(value) {
-      return ['sm', 'md', 'lg'].includes(value)
-    }
-  },
-  plainText: {
-    type: Boolean,
-    default: false
-  },
-  noResize: {
-    type: Boolean,
-    default: false
-  }
+export interface Props {
+  modelValue: string
+  size?: 'sm' | 'md' | 'lg'
+  plainText?: boolean
+  noResize?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 'md',
+  plainText: false,
+  noResize: false
 })
 
 const classes = computed(() => {
@@ -35,6 +27,6 @@ const attrs = useAttrs()
     :value="props.modelValue"
     v-bind="attrs"
     :class="[classes, `form-select-${props.size}`, { 'no-resize': props.noResize }]"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
   />
 </template>
