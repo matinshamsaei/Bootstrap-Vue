@@ -3,7 +3,7 @@ import type { App, Plugin } from 'vue'
 import './assets/scss/style.scss'
 
 import * as Components from './components'
-import * as Directives from './directives/Export'
+import * as Directives from './directives/Exports'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
@@ -62,7 +62,8 @@ const plugin: Plugin = {
 
 export * from './components'
 export * as Components from './components'
-export * as Directives from './directives/Export'
+export * from './directives/Exports'
+export * as Directives from './directives/Exports'
 
 export { plugin as BootstrapVueNext }
 export default plugin
