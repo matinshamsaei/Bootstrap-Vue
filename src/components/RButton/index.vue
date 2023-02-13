@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { useAttrs, reactive, computed } from 'vue'
+import { useAttrs } from 'vue'
 import { useRouter } from 'vue-router'
 import RLink from '@/components/RLink/index.vue'
 
-type ButtonProps = {
+const attrs = useAttrs()
+const router = useRouter()
+
+type Props = {
   to?: string | null
   href?: string | null
   target?: '_self' | '_blank' | '_parent' | '_top' | 'framename'
@@ -17,7 +20,7 @@ type ButtonProps = {
   tag?: 'div' | 'button' | 'span' | 'a' | 'input'
 }
 
-const buttonProps = withDefaults(defineProps<ButtonProps>(), {
+const props = withDefaults(defineProps<Props>(), {
   to: null,
   href: null,
   target: '_self',
@@ -31,53 +34,45 @@ const buttonProps = withDefaults(defineProps<ButtonProps>(), {
   tag: 'button'
 })
 
-const $buttonAttrs = useAttrs()
-
-let buttonAttrs = reactive({
-  ...$buttonAttrs
-})
-
-const buttonClass = [
+const componentClass = [
   'btn',
-  `btn-${buttonProps.size}`,
-  `btn-${buttonProps.variant}`,
+  `btn-${props.size}`,
+  `btn-${props.variant}`,
   {
-    'rounded-0': buttonProps.squared,
-    'rounded-pill': buttonProps.pill,
-    disabled: buttonProps.disabled,
-    'd-block w-100': buttonProps.block
+    'rounded-0': props.squared,
+    'rounded-pill': props.pill,
+    disabled: props.disabled,
+    'd-block w-100': props.block
   }
 ]
 
-if (!buttonProps.to && !buttonProps.href) buttonAttrs = Object.assign(buttonAttrs, { type: buttonProps.type })
-
-const router = useRouter()
-
-const buttonClick = (buttonProps: { to: string | null; href: string | null }) => {
-  if (buttonProps.to) router.push(`/${buttonProps.to}`)
-  else if (buttonProps.href) router.push(`/${buttonProps.href}`)
+const clickHandler = (props: { to: string | null; href: string | null }) => {
+  if (props.to) router.push(`/${props.to}`)
+  else if (props.href) router.push(`/${props.href}`)
 }
 </script>
 
 <template>
   <RLink
-    v-if="buttonProps.to || buttonProps.href"
-    v-bind="buttonAttrs"
-    :class="buttonClass"
-    :target="buttonProps.target"
-    :to="buttonProps.to"
-    :href="buttonProps.href"
+    v-if="props.to || props.href"
+    v-bind="attrs"
+    :class="componentClass"
+    :target="props.target"
+    :type="props.type"
+    :to="props.to"
+    :href="props.href"
   >
     <slot />
   </RLink>
 
   <component
     v-else
-    :is="buttonProps.tag"
-    v-bind="buttonAttrs"
-    :target="buttonProps.target"
-    :class="buttonClass"
-    @click="buttonClick(buttonProps)"
+    v-bind="attrs"
+    :is="props.tag"
+    :type="props.type"
+    :target="props.target"
+    :class="componentClass"
+    @click="clickHandler(props)"
   >
     <slot />
   </component>
