@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useAttrs, reactive, computed, ref } from 'vue'
+import RButton from '../RButton/index.vue'
 
 const $attrs = useAttrs()
 const emit = defineEmits<Emits>()
 
 type Props = {
   modelValue?: boolean
-  show: boolean
+  show?: boolean
   dismissible?: boolean
   animation?: string
   type?: 'submit' | 'button' | 'reset'
@@ -25,7 +26,6 @@ const props = withDefaults(defineProps<Props>(), {
   tag: 'div',
   closeButtonSize: 'sm'
 })
-
 
 const attrs = reactive({
   role: 'alert',
@@ -73,10 +73,12 @@ const hide = (): void => {
   <component v-if="show" :is="props.tag" class="mb-1" v-bind="attrs" :class="componentClass">
     <slot />
 
-    <button
+    <RButton
       v-if="dismissible"
       class="btn-close shadow-none"
+      data-bs-dismiss="alert"
       aria-label="Close"
+      variant="transparent"
       :size="props.closeButtonSize"
       @click="hide"
     />
