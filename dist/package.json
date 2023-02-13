@@ -3,7 +3,7 @@
     "description": "Routaa UI Kit",
     "authors": "Routaa Team",
     "version": "0.0.1",
-    "main": "./routaa-ui-kit.es.js.map",
+    "main": "./routaa-ui-kit.es.js",
     "type": "module",
     "types": "./main.d.ts",
     "dependencies": {
