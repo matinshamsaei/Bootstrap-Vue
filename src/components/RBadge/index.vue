@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { useAttrs, reactive } from 'vue'
+import { useAttrs } from 'vue'
 import RLink from '@/components/RLink/index.vue'
 // import { defineAsyncComponent } from 'vue'
 // const RLink = defineAsyncComponent(() => import('../RLink/index.vue'))
 
-const $attrs = useAttrs()
-
-const attrs = reactive({
-  ...$attrs
-})
+const attrs = useAttrs()
 
 type Props = {
   variant?: string
