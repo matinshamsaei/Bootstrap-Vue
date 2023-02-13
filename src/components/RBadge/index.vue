@@ -4,7 +4,13 @@ import RLink from '@/components/RLink/index.vue'
 // import { defineAsyncComponent } from 'vue'
 // const RLink = defineAsyncComponent(() => import('../RLink/index.vue'))
 
-type BadgeProps = {
+const $attrs = useAttrs()
+
+const attrs = reactive({
+  ...$attrs
+})
+
+type Props = {
   variant?: string
   tag?: 'span' | 'a'
   target?: '_self' | '_blank' | '_parent' | '_top' | 'framename'
@@ -13,7 +19,7 @@ type BadgeProps = {
   href?: string | null
 }
 
-const badgeProps = withDefaults(defineProps<BadgeProps>(), {
+const props = withDefaults(defineProps<Props>(), {
   variant: 'success',
   tag: 'span',
   target: '_self',
@@ -22,35 +28,29 @@ const badgeProps = withDefaults(defineProps<BadgeProps>(), {
   href: null
 })
 
-const $badgeAttrs = useAttrs()
-
-const badgeAttrs = reactive({
-  ...$badgeAttrs
-})
-
-const badgeClass = [
+const componentClass = [
   'badge',
-  `text-bg-${badgeProps.variant}`,
+  `text-bg-${props.variant}`,
   {
-    'rounded-pill': badgeProps.pill
+    'rounded-pill': props.pill
   }
 ]
 </script>
 
 <template>
   <RLink
-    v-if="badgeProps.to || badgeProps.href"
-    v-bind="badgeAttrs"
-    :target="badgeProps.target"
-    :to="badgeProps.to"
-    :href="badgeProps.href"
-    :class="badgeClass"
+    v-if="props.to || props.href"
+    v-bind="attrs"
+    :target="props.target"
+    :to="props.to"
+    :href="props.href"
+    :class="componentClass"
     class="text-decoration-none"
   >
     <slot />
   </RLink>
 
-  <component v-else :is="badgeProps.tag" v-bind="badgeAttrs" :target="badgeProps.target" :class="badgeClass">
+  <component v-else :is="props.tag" v-bind="attrs" :target="props.target" :class="componentClass">
     <slot />
   </component>
 </template>
