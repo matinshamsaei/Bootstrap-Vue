@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useAttrs, reactive, computed, ref } from 'vue'
 
-type AlertProps = {
+const $attrs = useAttrs()
+const emit = defineEmits<Emits>()
+
+type Props = {
   modelValue?: boolean
   show: boolean
   dismissible?: boolean
@@ -13,7 +16,7 @@ type AlertProps = {
   closeButtonSize?: 'sm' | 'md' | 'lg'
 }
 
-const alertProps = withDefaults(defineProps<AlertProps>(), {
+const props = withDefaults(defineProps<Props>(), {
   modelValue: false,
   dismissible: false,
   type: 'button',
@@ -23,37 +26,35 @@ const alertProps = withDefaults(defineProps<AlertProps>(), {
   closeButtonSize: 'sm'
 })
 
-const $alertAttrs = useAttrs()
 
-const alertAttrs = reactive({
+const attrs = reactive({
   role: 'alert',
-  ...$alertAttrs
+  ...$attrs
 })
 
-const alertClass = [
+const componentClass = [
   'alert',
-  `alert-${alertProps.variant}`,
-  `text-${alertProps.align}`,
-  `btn-${alertProps.closeButtonSize}`,
+  `alert-${props.variant}`,
+  `text-${props.align}`,
+  `btn-${props.closeButtonSize}`,
   {
-    'alert-dismissible': alertProps.dismissible,
-    [`${alertProps.animation}`]: alertProps.animation
+    'alert-dismissible': props.dismissible,
+    [`${props.animation}`]: props.animation
   },
   'show'
 ]
 
-interface AlertEmits {
+interface Emits {
   (e: 'update:modelValue', value: any): void
   (e: 'update:show', value: any): void
   (e: 'dismissed'): void
 }
-const emit = defineEmits<AlertEmits>()
 
-let showItem = ref(alertProps.show ? true : false)
+let showItem = ref(props.show ? true : false)
 
 const show = computed({
   get() {
-    return alertProps.modelValue || showItem.value
+    return props.modelValue || showItem.value
   },
   set(value) {
     emit('update:modelValue', value)
@@ -69,14 +70,14 @@ const hide = (): void => {
 </script>
 
 <template>
-  <component v-if="show" :is="alertProps.tag" class="mb-1" v-bind="alertAttrs" :class="alertClass">
+  <component v-if="show" :is="props.tag" class="mb-1" v-bind="attrs" :class="componentClass">
     <slot />
 
     <button
       v-if="dismissible"
       class="btn-close shadow-none"
       aria-label="Close"
-      :size="alertProps.closeButtonSize"
+      :size="props.closeButtonSize"
       @click="hide"
     />
   </component>
