@@ -1,66 +1,47 @@
-<script setup>
-import { computed, ref, useAttrs } from 'vue'
+<script setup lang="ts">
+import { computed, ref, useAttrs, reactive } from 'vue'
 
-const props = defineProps({
-  limit: {
-    type: [Number, String],
-    default: 3
-  },
-  totalRows: {
-    type: [Number, String],
-    required: true
-  },
-  perPage: {
-    type: [Number, String],
-    required: true
-  },
-  currentPage: {
-    type: [Number, String],
-    default: 1
-  },
-  size: {
-    type: String,
-    default: 'sm',
-    validator(value) {
-      return ['sm', 'lg'].includes(value)
-    }
-  },
-  pill: {
-    type: Boolean,
-    default: false
-  },
-  startText: {
-    type: String,
-    default: 'First'
-  },
-  prevText: {
-    type: String,
-    default: 'Prev'
-  },
-  nextText: {
-    type: String,
-    default: 'Next'
-  },
-  lastText: {
-    type: String,
-    default: 'Last'
-  },
-  hideEllipsis: {
-    type: Boolean,
-    default: false
-  },
-  hideGoToEndButtons: {
-    type: Boolean,
-    default: false
-  },
-  align: {
-    type: String,
-    default: 'center',
-    validator(value) {
-      return ['start', 'end', 'center', 'between', 'around'].includes(value)
-    }
-  }
+const attrs = useAttrs()
+
+const emit = defineEmits(['change'])
+
+type Props = {
+  limit?: number | string
+  totalRows: number | string
+  perPage: number | string
+  currentPage?: number | string
+  size?: 'sm' | 'lg'
+  pill?: boolean
+  startText?: string
+  prevText?: string
+  nextText?: string
+  lastText?: string
+  hideEllipsis?: boolean
+  hideGoToEndButtons?: boolean
+  align?: 'start' | 'end' | 'center' | 'between' | 'around'
+  disabled?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  limit: 3,
+  currentPage: 1,
+  size: 'sm',
+  pill: false,
+  startText: 'First',
+  prevText: 'Prev',
+  nextText: 'Next',
+  lastText: 'Last',
+  hideEllipsis: false,
+  hideGoToEndButtons: false,
+  align: 'center',
+  disabled: false
 })
+
+const componentClass = [`pagination-${props.size}`]
+
+const roundedClass = {
+  'rounded-pill me-1 px-3': props.pill
+}
 
 const limit = ref(+props.limit)
 const totalRows = ref(+props.totalRows)
@@ -68,25 +49,12 @@ const perPage = ref(+props.perPage)
 const currentPage = ref(+props.currentPage)
 const pageNum = Math.ceil(totalRows.value / perPage.value)
 
-const $attrs = useAttrs()
-
-const attrs = {
-  ...$attrs,
-  class: [`pagination-${props.size}`]
-}
-
-const rounded = {
-  'rounded-pill me-1 px-3': props.pill
-}
-
-const emit = defineEmits(['change'])
-
-const update = (amount) => {
+const update = (amount: number) => {
   emit('change', amount)
   updateCurrentPage(amount)
 }
 
-const updateCurrentPage = (amount) => {
+const updateCurrentPage = (amount: number) => {
   currentPage.value = amount
 }
 
@@ -94,7 +62,7 @@ const onClickStartPage = () => {
   update(1)
 }
 
-const isActivePage = (page) => {
+const isActivePage = (page: number) => {
   return currentPage.value === page
 }
 
@@ -112,7 +80,7 @@ const onClickLastPage = () => {
 }
 
 const pages = computed(() => {
-  const range = (start, end) => {
+  const range = (start: number, end: number) => {
     return Array.from(Array(end - start + 1), (_, i) => i + start)
   }
 
@@ -143,15 +111,27 @@ const isLastPage = computed(() => {
 
 <template>
   <nav>
-    <ul v-bind="attrs" class="pagination" :class="`justify-content-${props.align}`">
+    <ul v-bind="attrs" class="pagination" :class="[`justify-content-${props.align}`, componentClass]">
       <li v-if="!props.hideGoToEndButtons" class="page-item">
-        <button type="button" :disabled="isStartPage" class="page-link" @click="onClickStartPage" :class="rounded">
+        <button
+          type="button"
+          :disabled="isStartPage || disabled"
+          class="page-link"
+          @click="onClickStartPage"
+          :class="roundedClass"
+        >
           {{ props.startText }}
         </button>
       </li>
 
       <li v-if="!props.hideEllipsis" class="page-item">
-        <button type="button" :disabled="isStartPage" class="page-link" @click="onClickPreviousPage" :class="rounded">
+        <button
+          type="button"
+          :disabled="isStartPage || disabled"
+          class="page-link"
+          @click="onClickPreviousPage"
+          :class="roundedClass"
+        >
           {{ props.prevText }}
         </button>
       </li>
@@ -160,8 +140,8 @@ const isLastPage = computed(() => {
         <button
           type="button"
           class="page-link"
-          :disabled="page.isDisabled"
-          :class="[{ active: isActivePage(page) }, rounded]"
+          :disabled="disabled"
+          :class="[{ active: isActivePage(page) }, roundedClass]"
           @click="update(page)"
         >
           {{ page }}
@@ -169,13 +149,25 @@ const isLastPage = computed(() => {
       </li>
 
       <li v-if="!props.hideEllipsis" class="page-item">
-        <button type="button" :disabled="isLastPage" class="page-link" @click="onClickNextPage" :class="rounded">
+        <button
+          type="button"
+          :disabled="isLastPage || disabled"
+          class="page-link"
+          @click="onClickNextPage"
+          :class="roundedClass"
+        >
           {{ props.nextText }}
         </button>
       </li>
 
       <li v-if="!props.hideGoToEndButtons" class="page-item">
-        <button type="button" @click="onClickLastPage" :disabled="isLastPage" class="page-link" :class="rounded">
+        <button
+          type="button"
+          @click="onClickLastPage"
+          :disabled="isLastPage || disabled"
+          class="page-link"
+          :class="roundedClass"
+        >
           {{ props.lastText }}
         </button>
       </li>
