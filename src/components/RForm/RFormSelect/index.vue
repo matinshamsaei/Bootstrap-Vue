@@ -1,30 +1,19 @@
-<script setup>
+<script setup lang="ts">
 // import { defineAsyncComponent } from 'vue'
 // const RFormSelectOption = defineAsyncComponent(() => import('@/components/RForm/RFormSelect/RFormSelectOption.vue'))
 
 import { useAttrs } from 'vue'
 import RFormSelectOption from './RFormSelectOption.vue'
 
-const props = defineProps({
-  modelValue: {
-    type: [String, Number],
-    required: true
-  },
-  /**
-   * Select options
-   * @array of objects [{value: string | boolean | number, text: string}]
-   */
-  options: {
-    type: Array // [{value: 'test' || 0, text: 'text'}]
-  },
-  size: {
-    type: String,
-    default: 'md',
-    validator(value) {
-      return ['sm', 'md', 'lg'].includes(value)
-    }
-  },
-  selectSize: [String, Number]
+type Props = {
+  modelValue: string | number | null
+  options?: { value: string | number | boolean | null; text: string; disabled?: boolean }[]
+  size?: 'sm' | 'md' | 'lg'
+  selectSize?: string | number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 'md'
 })
 
 const attrs = useAttrs()
@@ -37,12 +26,12 @@ const attrs = useAttrs()
     v-bind="attrs"
     class="form-select"
     :class="`form-select-${props.size}`"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
   >
     <slot />
 
     <template v-for="option in props.options">
-      <RFormSelectOption :value="option.value" :disabled="option.disabled" :selected="option.selected">
+      <RFormSelectOption :value="option.value" :disabled="option.disabled">
         {{ option.text }}
       </RFormSelectOption>
     </template>
