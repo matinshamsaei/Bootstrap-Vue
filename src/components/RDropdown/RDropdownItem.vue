@@ -1,11 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import RLink from '../RLink/index.vue'
 import { useAttrs } from 'vue'
 
-const props = defineProps({
-  active: Boolean,
-  disabled: Boolean
-})
+type Props = {
+  active?: boolean
+  disabled?: boolean
+}
+
+const props = defineProps<Props>()
 
 const attrs = useAttrs()
 </script>
