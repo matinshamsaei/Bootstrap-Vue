@@ -2,7 +2,7 @@
 import { useDebounceFn } from '@vueuse/core'
 import { useAttrs, computed } from 'vue'
 
-export interface Props {
+type Props = {
   modelValue: string | number
   type?: 'text' | 'range' | 'color' | 'password' | 'number' | 'email' | 'url' | 'search' | 'date'
   size?: 'sm' | 'md' | 'lg'

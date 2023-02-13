@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAttrs, computed } from 'vue'
 
-export interface Props {
+type Props = {
   modelValue: string
   size?: 'sm' | 'md' | 'lg'
   plainText?: boolean
