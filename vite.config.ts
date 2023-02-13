@@ -23,7 +23,6 @@ export default defineConfig({
     extensions: ['.js', '.ts', '.json', '.vue']
   },
   build: {
-    sourcemap: true,
     emptyOutDir: false,
     minify: true,
     lib: {
