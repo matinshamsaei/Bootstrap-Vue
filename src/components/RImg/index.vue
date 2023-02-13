@@ -78,11 +78,9 @@ if (imgProps.blank) {
   src = makeBlankImgSrc(width, height, imgProps.blankColor || 'transparent')
 }
 
-if (imgProps.start) {
-  align = 'float-start'
-} else if (imgProps.end) {
-  align = 'float-end'
-} else if (imgProps.center) {
+if (imgProps.start) align = 'float-start'
+else if (imgProps.end) align = 'float-end'
+else if (imgProps.center) {
   align = 'mx-auto'
   block = true
 }
@@ -104,8 +102,6 @@ const imgClass = [
 const $imgAttrs = useAttrs()
 
 const imgAttrs: ImgHTMLAttributes = {
-  src: imgProps.src,
-  alt: imgProps.alt,
   sizes: sizes,
   width: width ? width : '',
   height: height ? height : '',
