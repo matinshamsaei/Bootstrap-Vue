@@ -1,87 +1,68 @@
-<script setup>
-import RButton from '../RButton/index.vue';
-// import { defineAsyncComponent } from 'vue'
-// const RButton = defineAsyncComponent(() => import('../RButton/index.vue'))
-
-const props = defineProps({
-  modelValue: {
-    type: [Boolean, String, Number]
-  },
-  show: {
-    type: [Boolean, String, Number]
-  },
-  dismissible: {
-    type: Boolean,
-    default: false
-  },
-  animation: {
-    type: String
-  },
-  type: {
-    type: String,
-    default: 'button',
-    validator(value) {
-      return ['submit', 'button', 'reset'].includes(value)
-    }
-  },
-  variant: {
-    type: String,
-    default: 'secondary'
-  },
-  align: {
-    type: String,
-    default: 'left',
-    validator(align) {
-      return ['left', 'center', 'right'].includes(align)
-    }
-  },
-  tag: {
-    type: String,
-    default: 'div',
-    validator(tag) {
-      return ['div', 'span'].includes(tag)
-    }
-  },
-  closeButtonSize: {
-    type: String,
-    default: 'sm',
-    validator(value) {
-      return ['sm', 'md', 'lg'].includes(value)
-    }
-  }
-})
+<script setup lang="ts">
+import { useAttrs, reactive, computed, ref } from 'vue'
+import RButton from '../RButton/index.vue'
 
 const $attrs = useAttrs()
+const emit = defineEmits<Emits>()
 
-const attrs = reactive({
-  ...$attrs,
-  role: 'alert'
+type Props = {
+  modelValue?: boolean
+  show?: boolean
+  dismissible?: boolean
+  animation?: string
+  type?: 'submit' | 'button' | 'reset'
+  variant?: string
+  align?: 'left' | 'center' | 'right'
+  tag?: 'div' | 'span'
+  closeButtonSize?: 'sm' | 'md' | 'lg'
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: false,
+  dismissible: false,
+  type: 'button',
+  variant: 'secondary',
+  align: 'left',
+  tag: 'div',
+  closeButtonSize: 'sm'
 })
 
-const classes = [
+const attrs = reactive({
+  role: 'alert',
+  ...$attrs
+})
+
+const componentClass = [
   'alert',
   `alert-${props.variant}`,
   `text-${props.align}`,
   `btn-${props.closeButtonSize}`,
   {
     'alert-dismissible': props.dismissible,
-    [props.animation]: props.animation
+    [`${props.animation}`]: props.animation
   },
   'show'
 ]
 
-const emit = defineEmits(['update:modelValue', 'dismissed'])
+interface Emits {
+  (e: 'update:modelValue', value: any): void
+  (e: 'update:show', value: any): void
+  (e: 'dismissed'): void
+}
+
+let showItem = ref(props.show ? true : false)
 
 const show = computed({
   get() {
-    return props.modelValue
+    return props.modelValue || showItem.value
   },
   set(value) {
     emit('update:modelValue', value)
+    showItem.value = false
   }
 })
 
-const hide = () => {
+const hide = (): void => {
   if (show.value) show.value = false
 
   emit('dismissed')
@@ -89,12 +70,12 @@ const hide = () => {
 </script>
 
 <template>
-  <component :is="props.tag" class="mb-1" v-bind="attrs" :class="classes">
+  <component v-if="show" :is="props.tag" class="mb-1" v-bind="attrs" :class="componentClass">
     <slot />
 
-    <R-Button
+    <RButton
       v-if="dismissible"
-      class="btn-close close shadow-none"
+      class="btn-close shadow-none"
       data-bs-dismiss="alert"
       aria-label="Close"
       variant="transparent"
