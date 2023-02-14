@@ -71,7 +71,7 @@ const componentClass = [
 </script>
 
 <template>
-  <Transition name="left">
+  <Transition :name="props.end ? 'left' : 'right'">
     <div>
       <div
         v-bind="attrs"
@@ -88,7 +88,13 @@ const componentClass = [
             <slot name="sidebar-header" v-else />
           </h5>
 
-          <RButton class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" @click="hide"></RButton>
+          <RButton
+            @click="hide"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+            class="btn-close"
+            variant="transparent"
+            />
         </div>
 
         <div class="offcanvas-body">
@@ -100,29 +106,3 @@ const componentClass = [
     </div>
   </Transition>
 </template>
-
-<style scoped>
-.left-enter-active,
-.left-leave-active {
-  transition: all 0.5s linear !important;
-  left: 0px !important;
-  overflow: hidden !important;
-}
-
-.left-enter-from,
-.left-leave-to {
-  left: -400px !important;
-}
-
-.close {
-  transition: all 0.5s linear !important;
-  left: -400px !important;
-}
-.offcanvas-backdrop.show {
-  opacity: 0.5;
-}
-
-.fade {
-  transition: opacity 0.15s linear;
-}
-</style>
