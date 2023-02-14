@@ -44,6 +44,15 @@ declare module '@vue/runtime-core' {
     // RTable: typeof Components.RTable
     RTabs: typeof Components.RTabs
   }
+
+  export interface GlobalDirectives {
+    vRTooltip: typeof Directives.vRTooltip
+    vRFocus: typeof Directives.vRFocus
+    vRFocus: typeof Directives.vRFocus
+    vRPopover: typeof Directives.vRPopover
+    vRVisible: typeof Directives.vRVisible
+    vRToggle: typeof Directives.vRToggle
+  }
 }
 
 // Main app plugin
@@ -57,7 +66,6 @@ const plugin: Plugin = {
       app.directive(name, directive)
     })
   }
-  
 }
 
 export * from './components'
