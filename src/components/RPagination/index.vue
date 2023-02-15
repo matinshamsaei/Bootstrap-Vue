@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useAttrs, reactive } from 'vue'
+import { computed, ref, useAttrs } from 'vue'
 
 const attrs = useAttrs()
 
