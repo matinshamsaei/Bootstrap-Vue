@@ -1,47 +1,37 @@
-<script setup>
-import { useAttrs } from 'vue'
+<script setup lang="ts">
+import { useAttrs, reactive } from 'vue'
 
-const props = defineProps({
-  flush: {
-    type: Boolean,
-    default: false
-  },
-  numbered: {
-    type: Boolean,
-    default: false
-  },
-  horizontal: {
-    type: [Boolean, String],
-    default: false,
-    validator(value) {
-      return ['sm', 'md', 'lg', 'xl', 'xxl', true, false]
-    }
-  }
+const attrs = useAttrs()
+
+type Props = {
+  flush?: boolean
+  numbered?: boolean
+  horizontal?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  flush: false,
+  numbered: false,
+  horizontal: false
 })
 
-const $attrs = useAttrs()
-
-const attrs = {
-  ...$attrs,
-  class: [
-    'list-group ',
-    {
-      'list-group-flush': props.flush,
-      [typeof props.horizontal === 'string' ? `list-group-horizontal-${props.horizontal}` : 'list-group-horizontal']:
-        !!props.horizontal
-    }
-  ]
-}
+const componentClass = [
+  'list-group ',
+  {
+    'list-group-flush': props.flush,
+    [typeof props.horizontal === 'string' && props.horizontal.length
+      ? `list-group-horizontal-${props.horizontal}`
+      : 'list-group-horizontal']: props.horizontal || (typeof props.horizontal === 'string' && !props.horizontal)
+  }
+]
 </script>
 
 <template>
-  <div>
-    <ol v-if="props.numbered" v-bind="attrs" class="list-group-numbered">
-      <slot />
-    </ol>
+  <ol v-if="props.numbered" v-bind="attrs" class="list-group-numbered" :class="componentClass">
+    <slot />
+  </ol>
 
-    <ul v-else v-bind="attrs">
-      <slot />
-    </ul>
-  </div>
+  <ul v-else v-bind="attrs" :class="componentClass">
+    <slot />
+  </ul>
 </template>
