@@ -44,7 +44,7 @@ const componentClass = [
   }
 ]
 
-const clickHandler = (props: Props) => {
+const clickHandler = (props: Pick<Props, 'to' | 'href'>) => {
   if (props.to) router.push(`/${props.to}`)
   else if (props.href) router.push(`/${props.href}`)
 }
