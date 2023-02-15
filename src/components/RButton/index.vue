@@ -1,102 +1,79 @@
-<script setup>
-import RLink from '../RLink/index.vue';
-// import { defineAsyncComponent } from 'vue'
-// const RLink = defineAsyncComponent(() => import('@/components/RLink/index.vue'))
-import { useAttrs, reactive } from 'vue'
+<script setup lang="ts">
+import { useAttrs } from 'vue'
 import { useRouter } from 'vue-router'
+import RLink from '@/components/RLink/index.vue'
 
-const props = defineProps({
-  to: {
-    type: String,
-    default: null
-  },
-  href: {
-    type: String,
-    default: null
-  },
-  target: {
-    type: String,
-    default: '_self',
-    validator(value) {
-      return ['_self', '_blank', '_parent', '_top', 'framename'].includes(value)
-    }
-  },
-  type: {
-    type: String,
-    default: 'button',
-    validator(value) {
-      return ['submit', 'button', 'reset'].includes(value)
-    }
-  },
-  size: {
-    type: String,
-    default: 'md',
-    validator(value) {
-      return ['sm', 'md', 'lg'].includes(value)
-    }
-  },
-  variant: {
-    type: String,
-    default: 'secondary'
-  },
-  pill: {
-    type: Boolean,
-    default: false
-  },
-  squared: {
-    type: Boolean,
-    default: false
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  block: {
-    type: Boolean,
-    default: false
-  },
-  tag: {
-    type: String,
-    default: 'button',
-    validator(button) {
-      return ['div', 'button', 'span', 'a', 'input'].includes(button)
-    }
-  }
-})
-
-const $attrs = useAttrs()
-
-let attrs = reactive({
-  ...$attrs,
-  class: [
-    'btn',
-    `btn-${props.size}`,
-    `btn-${props.variant}`,
-    {
-      'rounded-0': props.squared,
-      'rounded-pill': props.pill,
-      disabled: props.disabled,
-      'd-block w-100': props.block
-    }
-  ]
-})
-
-if (!props.to && !props.href) attrs = Object.assign(attrs, { type: props.type })
-
+const attrs = useAttrs()
 const router = useRouter()
 
-const buttonClick = (props) => {
+type Props = {
+  to?: string | null
+  href?: string | null
+  target?: '_self' | '_blank' | '_parent' | '_top' | 'framename'
+  type?: 'submit' | 'button' | 'reset'
+  size?: 'sm' | 'md' | 'lg'
+  variant?: string
+  pill?: boolean
+  squared?: boolean
+  disabled?: boolean
+  block?: boolean
+  tag?: 'div' | 'button' | 'span' | 'a' | 'input'
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  to: null,
+  href: null,
+  target: '_self',
+  type: 'button',
+  size: 'md',
+  variant: 'secondary',
+  pill: false,
+  squared: false,
+  disabled: false,
+  block: false,
+  tag: 'button'
+})
+
+const componentClass = [
+  'btn',
+  `btn-${props.size}`,
+  `btn-${props.variant}`,
+  {
+    'rounded-0': props.squared,
+    'rounded-pill': props.pill,
+    disabled: props.disabled,
+    'd-block w-100': props.block
+  }
+]
+
+const clickHandler = (props: { to: string | null; href: string | null }) => {
   if (props.to) router.push(`/${props.to}`)
   else if (props.href) router.push(`/${props.href}`)
 }
 </script>
 
 <template>
-  <RLink v-if="props.to || props.href" v-bind="attrs" :target="props.target" :to="props.to" :href="props.href">
+  <RLink
+    v-if="props.to || props.href"
+    v-bind="attrs"
+    :class="componentClass"
+    :target="props.target"
+    :type="props.type"
+    :to="props.to"
+    :href="props.href"
+  >
     <slot />
   </RLink>
 
-  <component v-else :is="props.tag" v-bind="attrs" :target="props.target" @click="buttonClick(props)">
+  <component
+    v-else
+    v-bind="attrs"
+    :is="props.tag"
+    :type="props.type"
+    :target="props.target"
+    :class="componentClass"
+    @click="clickHandler(props)"
+  >
     <slot />
   </component>
 </template>
