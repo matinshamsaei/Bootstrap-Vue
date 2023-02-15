@@ -7,9 +7,9 @@ const attrs = useAttrs()
 type Props = {
   active?: boolean
   disabled?: boolean
-  variant?: string | null
-  href?: string | null
-  to?: string | null
+  variant?: string
+  href?: string
+  to?: string
   target?: '_self' | '_blank' | '_parent' | '_top' | 'framename'
   tag?: 'li' | 'div' | 'span' | 'a'
 }
@@ -47,7 +47,6 @@ const componentClass = [
     v-else
     :is="props.tag"
     :variant="props.variant"
-    :href="props.href"
     v-bind="attrs"
     :class="[{ active: props.active, disabled: props.disabled }, componentClass]"
   >
