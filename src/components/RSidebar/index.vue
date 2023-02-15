@@ -1,5 +1,6 @@
 <script setup>
-const RButton = defineAsyncComponent(() => import('@/components/UI/RButton'))
+// const RButton = defineAsyncComponent(() => import('@/components/RButton'))
+import RButton from '../RButton/index'
 
 const props = defineProps({
   sidebarId: {
