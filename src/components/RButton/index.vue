@@ -7,8 +7,8 @@ const attrs = useAttrs()
 const router = useRouter()
 
 type Props = {
-  to?: string | null
-  href?: string | null
+  to?: string
+  href?: string
   target?: '_self' | '_blank' | '_parent' | '_top' | 'framename'
   type?: 'submit' | 'button' | 'reset'
   size?: 'sm' | 'md' | 'lg'
@@ -21,8 +21,6 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  to: null,
-  href: null,
   target: '_self',
   type: 'button',
   size: 'md',
@@ -46,7 +44,7 @@ const componentClass = [
   }
 ]
 
-const clickHandler = (props: { to: string | null; href: string | null }) => {
+const clickHandler = (props: Props) => {
   if (props.to) router.push(`/${props.to}`)
   else if (props.href) router.push(`/${props.href}`)
 }
