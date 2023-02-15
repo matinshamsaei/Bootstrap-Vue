@@ -1,22 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { useAttrs } from 'vue'
 
-const props = defineProps({
-  to: {
-    type: String,
-    default: null
-  },
-  href: {
-    type: String,
-    default: null
-  },
-  target: {
-    type: String,
-    default: '_self',
-    validator(value) {
-      return ['_self', '_blank', '_parent', '_top', 'framename'].includes(value)
-    }
-  }
+export interface Props {
+  to?: string
+  href?: string
+  target?: '_self' | '_blank' | '_parent' | '_top' | 'framename'
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  target: '_self'
 })
 
 const attrs = useAttrs()

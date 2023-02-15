@@ -1,30 +1,31 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
 import { useAttrs } from 'vue'
-import RImg from '../RImg/index.vue';
+import type { HTMLAttributes } from 'vue'
+import RImg from '../RImg/index.vue'
 
 // const RImg = defineAsyncComponent(() => import('@/components/RImg/index.vue'))
 
-type CardImgAttrs = {
-  src?: string
+type cardImgProps = {
+  src: string
   alt?: string
-  fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside'
-  preload?: boolean
-  loading?: 'lazy'
-  lazy?: boolean
-  image?: boolean
+  blank?: boolean
   class?: HTMLAttributes['class']
+  blankColor?: string
+  center?: boolean
+  block?: boolean
   fluid?: boolean
+  fluidGrow?: boolean
+  rounded?: string | boolean
+  sizes?: string
+  lazy?: boolean
   thumbnail?: boolean
   height?: string | number
   width?: string | number
   start?: boolean
   end?: boolean
-  center?: boolean
-  sizes?: string
 }
 
-const cardImgProps = withDefaults(defineProps<CardImgAttrs>(), {
+const cardImgProps = withDefaults(defineProps<cardImgProps>(), {
   image: true,
   lazy: true,
   fluid: false,
@@ -39,9 +40,6 @@ const $cardImgAttrs = useAttrs()
 const cardImgAttrs = {
   src: cardImgProps.src,
   alt: cardImgProps.alt,
-  fit: cardImgProps.fit,
-  preload: cardImgProps.preload,
-  loading: cardImgProps.loading,
   lazy: cardImgProps.lazy,
   class: [cardImgProps.class, 'card-img-top'],
   fluid: cardImgProps.fluid,
