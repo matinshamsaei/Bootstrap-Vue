@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { useAttrs, reactive } from 'vue'
 
-const $attrs = useAttrs()
-
-const attrs = reactive({
-  ...$attrs
-})
+const attrs = useAttrs()
 
 type Props = {
   flush?: boolean

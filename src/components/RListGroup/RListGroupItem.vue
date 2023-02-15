@@ -17,10 +17,7 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   active: false,
   disabled: false,
-  variant: null,
-  href: null,
   target: '_self',
-  to: null,
   tag: 'li'
 })
 
