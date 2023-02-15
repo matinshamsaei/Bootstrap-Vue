@@ -39,9 +39,9 @@ declare module '@vue/runtime-core' {
     RListGroupItem: typeof Components.RListGroupItem
     RModal: typeof Components.RModal
     RPagination: typeof Components.RPagination
-    // RSidebar: typeof Components.RSidebar
+    RSidebar: typeof Components.RSidebar
     RTab: typeof Components.RTab
-    // RTable: typeof Components.RTable
+    RTable: typeof Components.RTable
     RTabs: typeof Components.RTabs
   }
 }
