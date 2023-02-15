@@ -2,7 +2,7 @@
   "name": "routaa-ui-kit",
   "version": "0.0.1",
   "private": false,
-    "type": "module",
+  "type": "module",
   "scripts": {
     "serve": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "vite-plugin-dts": "^1.7.2",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.6",
