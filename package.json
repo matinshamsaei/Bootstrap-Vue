@@ -12,11 +12,14 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
   },
   "dependencies": {
+    "@babel/types": "^7.20.7",
+    "tslib": "^2.5.0",
     "vite-plugin-dts": "^1.7.2",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^11.0.0",
     "@types/bootstrap": "^5.2.6",
     "@types/jsdom": "^20.0.1",
     "@types/node": "^18.11.12",
