@@ -1,5 +1,6 @@
 <script setup>
-const RThead = defineAsyncComponent(() => import('@/components/UI/RTable/RThead.vue'))
+// const RThead = defineAsyncComponent(() => import('@/components/RTable/RThead.vue'))
+import RThead from './RThead'
 
 const props = defineProps({
   variant: {
