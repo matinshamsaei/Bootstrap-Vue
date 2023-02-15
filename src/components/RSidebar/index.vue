@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useAttrs, reactive, computed } from 'vue'
+import type { HTMLAttributes } from 'vue'
 import RButton from '@/components/RButton/index.vue'
 
 type Props = {
   modelValue?: boolean
-  sidebarId: string | number
+  id?: string | number
   backdrop?: 'static' | boolean
   headerText?: string
   noHeader?: boolean
@@ -29,10 +30,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const $attrs = useAttrs()
 
-const attrs = reactive({
+const attrs: HTMLAttributes = reactive({
   ...$attrs,
   role: 'dialog',
-  'tab-index': '-1'
+  'tab-index': '-1',
+  id: String(props.id)
 })
 
 interface Emit {
@@ -77,7 +79,6 @@ const componentClass = [
         v-bind="attrs"
         :data-bs-backdrop="props.backdrop"
         tabindex="-1"
-        :id="`${props.sidebarId}`"
         :class="[componentClass, { show: show, close: !show }]"
       >
         <div v-if="!props.noHeader" class="offcanvas-header">
@@ -94,7 +95,7 @@ const componentClass = [
             aria-label="Close"
             class="btn-close"
             variant="transparent"
-            />
+          />
         </div>
 
         <div class="offcanvas-body">
