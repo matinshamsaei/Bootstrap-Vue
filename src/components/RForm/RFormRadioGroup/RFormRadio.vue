@@ -4,9 +4,9 @@ import { useAttrs } from 'vue'
 const attrs = useAttrs()
 
 type Props = {
-  id?: string | undefined
+  id?: string
   value: string | number | boolean
-  name: string
+  name?: string
   checked?: boolean
   disabled?: boolean
   inline?: boolean

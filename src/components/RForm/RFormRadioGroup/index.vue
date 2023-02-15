@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import { useAttrs } from 'vue'
 
+export interface IObject {
+  [key: string]: any
+}
+
 const attrs = useAttrs()
 
 type Props = {
-  id?: string | undefined
-  value: string | number | boolean
+  modelValue: string | number | boolean | null
+  id?: string
   name?: string
   checked?: boolean
   disabled?: boolean
-  options?: { text: string; value: string }[]
+  options?: IObject[]
   inline?: boolean
+  textField?: string
+  valueField?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  id: undefined,
-  value: false,
+  modelValue: false,
   checked: false,
   disabled: false,
-  inline: false
+  inline: false,
+  textField: 'text',
+  valueField: 'value'
 })
 
 const componentClass = [
@@ -35,17 +42,17 @@ const componentClass = [
 <template>
   <div v-bind="attrs" v-for="option in options" :class="componentClass">
     <input
-      :name="props.name"
+      :name="option[props.textField]"
       :id="option.value"
       :checked="props.checked"
       :disabled="props.disabled"
-      :value="option.value"
+      :value="option[props.valueField]"
       type="radio"
-      @change="$emit('update:modelValue', option.value)"
+      @change="$emit('update:modelValue', option[props.valueField])"
       class="form-check-input"
     />
-    <label :for="option.value" class="form-check-label">
-      {{ option.text }}
+    <label :for="option[props.valueField]" class="form-check-label">
+      {{ option[props.textField] }}
     </label>
   </div>
 </template>
