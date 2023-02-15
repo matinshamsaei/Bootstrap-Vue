@@ -16,7 +16,7 @@ export default defineConfig({
     dts({
       insertTypesEntry: true
     }),
-    typescript({ compilerOptions: {lib: ["es5", "es6", "dom"], target: "es5"}})
+    typescript({ compilerOptions: {lib: ["es5", "es6", "dom"], target: "es6"}})
   ],
   resolve: {
     alias: {
@@ -25,7 +25,6 @@ export default defineConfig({
     extensions: ['.js', '.ts', '.json', '.vue']
   },
   build: {
-    sourcemap: true,
     emptyOutDir: false,
     minify: true,
     lib: {
