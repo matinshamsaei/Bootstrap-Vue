@@ -8,7 +8,7 @@ const emit = defineEmits(['change'])
 type Props = {
   totalRows: number | string
   perPage: number | string
-  limit?: number | string //limited to visible page button
+  limit?: number | string // limit to visible page buttons
   currentPage?: number | string
   size?: 'sm' | 'lg'
   pill?: boolean
@@ -43,11 +43,11 @@ const roundedClass = {
   'rounded-pill me-1 px-3': props.pill
 }
 
-const limitButton = ref<number>(+props.limit)
+const buttonsLimit = ref<number>(+props.limit)
 const totalRows = ref<number>(+props.totalRows)
 const perPage = ref<number>(+props.perPage)
 const currentPage = ref<number>(+props.currentPage)
-const totalPage = Math.ceil(totalRows.value / perPage.value)
+const totalPages = Math.ceil(totalRows.value / perPage.value)
 
 const update = (amount: number) => {
   emit('change', amount)
@@ -71,13 +71,13 @@ const onClickPreviousPage = () => {
 }
 
 const onClickNextPage = () => {
-  if (currentPage.value + 1 <= totalPage) {
+  if (currentPage.value + 1 <= totalPages) {
     update(currentPage.value + 1)
   }
 }
 
 const onClickLastPage = () => {
-  update(totalPage)
+  update(totalPages)
 }
 
 const range = (start: number, end: number) => {
@@ -85,17 +85,17 @@ const range = (start: number, end: number) => {
 }
 
 const getPages = () => {
-  const limit = limitButton.value
-  const middle = Math.floor(limitButton.value / 2)
+  const limit = buttonsLimit.value
+  const middle = Math.floor(buttonsLimit.value / 2)
 
-  if (totalPage < limit) return range(1, totalPage)
+  if (totalPages < limit) return range(1, totalPages)
 
   let start = currentPage.value - middle
   let end = currentPage.value + middle
 
-  if (currentPage.value >= totalPage - middle) {
-    start = totalPage - limit + 1
-    end = totalPage
+  if (currentPage.value >= totalPages - middle) {
+    start = totalPages - limit + 1
+    end = totalPages
   }
   return range(Math.max(1, start), Math.max(end, limit))
 }
