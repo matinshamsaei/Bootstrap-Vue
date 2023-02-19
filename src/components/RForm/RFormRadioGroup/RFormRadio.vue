@@ -4,8 +4,9 @@ import { useAttrs } from 'vue'
 const attrs = useAttrs()
 
 type Props = {
-  id?: string
   value: string | number | boolean
+  id?: string
+  modelValue?: string | number | boolean
   name?: string
   checked?: boolean
   disabled?: boolean
@@ -13,7 +14,6 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  id: undefined,
   value: false,
   checked: false,
   disabled: false,
@@ -33,7 +33,6 @@ const componentClass = [
 <template>
   <div v-bind="attrs" :class="componentClass">
     <input
-      v-model="props.value"
       :id="props.id"
       :name="props.name"
       :value="props.value"

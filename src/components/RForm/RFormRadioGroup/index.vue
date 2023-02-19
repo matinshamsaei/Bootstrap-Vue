@@ -11,7 +11,7 @@ const attrs = useAttrs()
 const slots = useSlots()
 
 type Props = {
-  value: string | number | boolean | null
+  modelValue: string | number | boolean | null
   id?: string
   name?: string
   checked?: boolean
@@ -35,18 +35,13 @@ function getRadio(slots: any): any[] {
   if (!slots || !slots.default) return []
 
   return slots.default().reduce((arr: number[], slot: any) => {
-    if (typeof slot.type === 'symbol') {
-      arr = arr.concat(slot.children)
-    } else {
-      arr.push(slot)
-    }
+    if (typeof slot.type === 'symbol') arr = arr.concat(slot.children)
+    else arr.push(slot)
     return arr
   }, [])
 }
 
 const items = reactive(getRadio(slots))
-
-console.log(items)
 
 const itemsForRender: any = reactive(
   items.map((item) => ({
