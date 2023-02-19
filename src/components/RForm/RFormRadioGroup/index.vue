@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useAttrs } from 'vue'
+import RFormRadio from '@/components/RForm/RFormRadioGroup/RFormRadio.vue'
+import { useAttrs, reactive, useSlots } from 'vue'
 
 export interface IObject {
   [key: string]: any
@@ -7,8 +8,10 @@ export interface IObject {
 
 const attrs = useAttrs()
 
+const slots = useSlots()
+
 type Props = {
-  modelValue: string | number | boolean | null
+  value: string | number | boolean | null
   id?: string
   name?: string
   checked?: boolean
@@ -20,13 +23,39 @@ type Props = {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
+  value: false,
   checked: false,
   disabled: false,
   inline: false,
   textField: 'text',
   valueField: 'value'
 })
+
+function getRadio(slots: any): any[] {
+  if (!slots || !slots.default) return []
+
+  return slots.default().reduce((arr: number[], slot: any) => {
+    if (typeof slot.type === 'symbol') {
+      arr = arr.concat(slot.children)
+    } else {
+      arr.push(slot)
+    }
+    return arr
+  }, [])
+}
+
+const items = reactive(getRadio(slots))
+
+console.log(items)
+
+const itemsForRender: any = reactive(
+  items.map((item) => ({
+    id: item.props.id,
+    value: item.props.value,
+    disabled: item.props.disabled === '' ? true : false,
+    checked: false
+  }))
+)
 
 const componentClass = [
   'form-check',
@@ -40,9 +69,21 @@ const componentClass = [
 </script>
 
 <template>
-  <div v-bind="attrs" v-for="option in options" :class="componentClass">
+  <RFormRadio
+    v-if="props.options"
+    v-bind="attrs"
+    v-for="item in itemsForRender"
+    :class="componentClass"
+    :name="props.name"
+    :id="item.value"
+    :checked="props.checked"
+    :disabled="props.disabled"
+    :value="item.value"
+  />
+
+  <div v-else v-bind="attrs" v-for="option in options" :class="componentClass">
     <input
-      :name="option[props.textField]"
+      :name="props.name"
       :id="option.value"
       :checked="props.checked"
       :disabled="props.disabled"

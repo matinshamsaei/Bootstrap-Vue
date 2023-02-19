@@ -36,6 +36,7 @@ const componentClass = [
       v-model="props.value"
       :id="props.id"
       :name="props.name"
+      :value="props.value"
       :checked="props.checked"
       :disabled="props.disabled"
       type="radio"
