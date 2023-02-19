@@ -5,15 +5,21 @@
 import { useAttrs } from 'vue'
 import RFormSelectOption from './RFormSelectOption.vue'
 
+export interface IObject {
+  [key: string]: any
+}
+
 type Props = {
   modelValue: string | number | null
-  options?: { value: string | number | boolean | null; text: string; disabled?: boolean }[]
+  options?: IObject[]
   size?: 'sm' | 'md' | 'lg'
   selectSize?: string | number
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 'md'
+  size: 'md',
+  textField: 'text',
+  valueField: 'value'
 })
 
 const attrs = useAttrs()
@@ -28,12 +34,12 @@ const attrs = useAttrs()
     :class="`form-select-${props.size}`"
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
   >
-    <slot />
-
     <template v-for="option in props.options">
-      <RFormSelectOption :value="option.value" :disabled="option.disabled">
-        {{ option.text }}
+      <RFormSelectOption :value="option[props.valueField]" :disabled="option.disabled">
+        {{ option[props.textField] }}
       </RFormSelectOption>
     </template>
+
+    <slot />
   </select>
 </template>

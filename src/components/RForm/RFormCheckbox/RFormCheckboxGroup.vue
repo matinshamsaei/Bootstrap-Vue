@@ -2,17 +2,26 @@
 import RFormCheckbox from '@/components/RForm/RFormCheckbox/RFormCheckbox.vue'
 import { useSlots, reactive } from 'vue'
 
+export interface IObject {
+  [key: string]: any
+}
+
 type Props = {
   label: string
   modelValue?: string[]
-  options?: { text?: string; value?: string; disabled?: boolean }[]
+  options?: IObject[]
+  textField?: string
+  valueField?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  textField: 'text',
+  valueField: 'value'
+})
 
 const slots = useSlots()
 
-function getCheckBox(slots: any): any[] {
+function getCheckbox(slots: any): any[] {
   if (!slots || !slots.default) return []
 
   return slots.default().reduce((arr: number[], slot: any) => {
@@ -24,14 +33,14 @@ function getCheckBox(slots: any): any[] {
     return arr
   }, [])
 }
-const items = reactive(getCheckBox(slots))
+const items = reactive(getCheckbox(slots))
 
 let itemsForRender: any = reactive([])
 if (props.options) {
   itemsForRender = reactive(
     props.options.map((option) => ({
-      text: option.text,
-      value: option.value,
+      text: option[props.textField],
+      value: option[props.valueField],
       disabled: option.disabled ? true : false,
       modelValue: null
     }))

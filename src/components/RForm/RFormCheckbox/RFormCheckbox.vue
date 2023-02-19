@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, useSlots, useAttrs } from 'vue'
 
-type checkboxValueType = string | number | boolean | null
+type CheckboxValueType = string | number | boolean | null
 
 type Props = {
-  modelValue?: checkboxValueType
+  modelValue?: CheckboxValueType
   id?: string
   disabled?: boolean
-  value?: checkboxValueType
-  uncheckedValue?: checkboxValueType
+  value?: CheckboxValueType
+  uncheckedValue?: CheckboxValueType
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -38,14 +38,14 @@ const isChecked = ref(false)
 
 function changeHandler(event: Event) {
   const checkbox = event.target as HTMLInputElement
-  let value = checkbox.value as checkboxValueType
+  let value = checkbox.value as CheckboxValueType
   if (checkbox.checked) isChecked.value = true
   else isChecked.value = false
   value = valueGenerator()
   emits('update:modelValue', value as string)
 }
 
-function valueGenerator(): checkboxValueType {
+function valueGenerator(): CheckboxValueType {
   if (isChecked.value) {
     if (props.value) return props.value
     return true

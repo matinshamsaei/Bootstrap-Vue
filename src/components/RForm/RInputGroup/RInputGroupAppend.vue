@@ -4,7 +4,7 @@ import { useAttrs } from 'vue'
 const attrs = useAttrs()
 
 type Props = {
-  isText: boolean
+  isText?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
