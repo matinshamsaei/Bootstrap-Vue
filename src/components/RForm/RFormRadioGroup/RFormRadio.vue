@@ -42,6 +42,6 @@ const componentClass = [
       @change="$emit('update:modelValue', props.value)"
       class="form-check-input"
     />
-    <label class="form-check-label" :for="props.id"> Default checked radio </label>
+    <label class="form-check-label" :for="props.id"> <slot /> </label>
   </div>
 </template>

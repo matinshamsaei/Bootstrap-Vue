@@ -11,7 +11,7 @@ const attrs = useAttrs()
 const slots = useSlots()
 
 type Props = {
-  modelValue: string | number | boolean | null
+  modelValue: string | number | boolean
   id?: string
   name?: string
   checked?: boolean
@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
   valueField: 'value'
 })
 
-function getRadio(slots: any): any[] {
+function getRadios(slots: any): any[] {
   if (!slots || !slots.default) return []
 
   return slots.default().reduce((arr: number[], slot: any) => {
@@ -41,14 +41,14 @@ function getRadio(slots: any): any[] {
   }, [])
 }
 
-const items = reactive(getRadio(slots))
+const items = reactive(getRadios(slots))
 
 const itemsForRender: any = reactive(
   items.map((item) => ({
     id: item.props.id,
     value: item.props.value,
     disabled: item.props.disabled === '' ? true : false,
-    checked: false
+    text: item.children.default()
   }))
 )
 
@@ -61,34 +61,40 @@ const componentClass = [
     checked: props.checked
   }
 ]
+
+const log = (text: unknown) => {
+  console.log(text)
+}
 </script>
 
 <template>
   <RFormRadio
     v-if="props.options"
     v-bind="attrs"
-    v-for="item in itemsForRender"
+    v-for="option in props.options"
     :class="componentClass"
     :name="props.name"
-    :id="item.value"
+    :id="option[valueField]"
     :checked="props.checked"
-    :disabled="props.disabled"
-    :value="item.value"
-  />
+    :disabled="option.disabled || props.disabled"
+    :value="option[valueField]"
+  >
+    {{ option[textField] }}
+  </RFormRadio>
 
-  <div v-else v-bind="attrs" v-for="option in options" :class="componentClass">
+  <div v-if="itemsForRender" v-bind="attrs" v-for="item in itemsForRender" :class="componentClass">
     <input
       :name="props.name"
-      :id="option.value"
-      :checked="props.checked"
-      :disabled="props.disabled"
-      :value="option[props.valueField]"
+      :id="item.value"
+      :checked="item.checked"
+      :disabled="item.disabled || props.disabled"
+      :value="item.value"
       type="radio"
-      @change="$emit('update:modelValue', option[props.valueField])"
+      @change="$emit('update:modelValue', item.value)"
       class="form-check-input"
     />
-    <label :for="option[props.valueField]" class="form-check-label">
-      {{ option[props.textField] }}
-    </label>
+    <label :for="item.value" v-html="item.text" class="form-check-label"> </label>
+
+    <button @click="log(item.text)">loggggggggggggg</button>
   </div>
 </template>
