@@ -3,6 +3,7 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import type { PluginOption } from 'vite'
 import { visualizer } from 'rollup-plugin-visualizer'
+import typescript from '@rollup/plugin-typescript';
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
 
@@ -14,7 +15,8 @@ export default defineConfig({
     visualizer() as unknown as PluginOption,
     dts({
       insertTypesEntry: true
-    })
+    }),
+    typescript({ compilerOptions: {lib: ["es5", "es6", "dom"], target: "es6"}})
   ],
   resolve: {
     alias: {
@@ -28,6 +30,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/RoutaaUiKit.ts'),
       name: 'routaa-ui-kit',
+      formats: ['es', 'cjs'],
       fileName: (format) => `routaa-ui-kit.${format}.js`
     },
     rollupOptions: {
@@ -47,6 +50,10 @@ export default defineConfig({
       ],
       output: {
         exports: 'named',
+        interop: 'auto',
+        dir: './dist',
+        strict: true,
+        compact: true,
         assetFileNames: `routaa-ui-kit.[ext]`,
         globals: {
           vue: 'Vue',
@@ -62,6 +69,10 @@ export default defineConfig({
           'bootstrap/js/dist/popover': 'Popover',
           'bootstrap/js/dist/tooltip': 'Tooltip'
         }
+      },
+      treeshake: {
+        moduleSideEffects: false,
+        correctVarValueBeforeDeclaration: true,
       }
     }
   },

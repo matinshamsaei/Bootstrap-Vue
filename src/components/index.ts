@@ -30,7 +30,7 @@ export { default as RListGroup } from "./RListGroup/index.vue";
 export { default as RListGroupItem } from "./RListGroup/RListGroupItem.vue";
 export { default as RModal } from "./RModal/index.vue";
 export { default as RPagination } from "./RPagination/index.vue";
-export { default as RSidebar } from './RSidebar/RSidebar.vue'
+export { default as RSidebar } from './RSidebar/index.vue'
 export { default as RTab } from "./RTabs/RTab.vue";
 export { default as RTable } from './RTable/index.vue'
 export { default as RTabs } from "./RTabs/index.vue";

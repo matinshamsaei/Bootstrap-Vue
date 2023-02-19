@@ -61,12 +61,12 @@ export type CardProps = {
 import type { HTMLAttributes, HtmlHTMLAttributes } from 'vue'
 import { useAttrs } from 'vue'
 
-import RCardTitle from './RCardTitle.vue';
-import RCardImg from './RCardImg.vue';
-import RCardSubTitle from './RCardSubtitle.vue';
-import RCardHeader from './RCardHeader.vue';
-import RCardBody from './RCardBody.vue';
-import RCardFooter from './RCardFooter.vue';
+import RCardTitle from './RCardTitle.vue'
+import RCardImg from './RCardImg.vue'
+import RCardSubTitle from './RCardSubtitle.vue'
+import RCardHeader from './RCardHeader.vue'
+import RCardBody from './RCardBody.vue'
+import RCardFooter from './RCardFooter.vue'
 
 // const RCardTitle = defineAsyncComponent(() => import('./RCardTitle.vue'))
 // const RCardImg = defineAsyncComponent(() => import('./RCardImg.vue'))
@@ -101,9 +101,7 @@ const rCardTitleAttrs = {
 
 // card image
 const rCardImgAttrs = {
-  src: cardProps.imgSrc,
   alt: cardProps.imgAlt,
-  // loading: cardProps.imgLoading,
   lazy: cardProps.imgLazy,
   class: cardProps.imgClass,
   fluid: cardProps.imgFluid,
@@ -167,7 +165,7 @@ const rCardFooterAttrs = {
       <slot v-if="$slots.header" name="header" />
     </RCardHeader>
 
-    <RCardImg v-if="!!cardProps.imgSrc" v-bind="rCardImgAttrs" />
+    <RCardImg v-if="!!cardProps.imgSrc" :src="cardProps.imgSrc" v-bind="rCardImgAttrs" />
 
     <RCardTitle v-if="cardProps.noBody && cardProps.title" v-bind="rCardTitleAttrs" />
 

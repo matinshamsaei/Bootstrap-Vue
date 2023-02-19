@@ -39,10 +39,19 @@ declare module '@vue/runtime-core' {
     RListGroupItem: typeof Components.RListGroupItem
     RModal: typeof Components.RModal
     RPagination: typeof Components.RPagination
-    // RSidebar: typeof Components.RSidebar
+    RSidebar: typeof Components.RSidebar
     RTab: typeof Components.RTab
-    // RTable: typeof Components.RTable
+    RTable: typeof Components.RTable
     RTabs: typeof Components.RTabs
+  }
+
+  export interface GlobalDirectives {
+    vRTooltip: typeof Directives.vRTooltip
+    vRFocus: typeof Directives.vRFocus
+    vRFocus: typeof Directives.vRFocus
+    vRPopover: typeof Directives.vRPopover
+    vRVisible: typeof Directives.vRVisible
+    vRToggle: typeof Directives.vRToggle
   }
 }
 
@@ -57,7 +66,6 @@ const plugin: Plugin = {
       app.directive(name, directive)
     })
   }
-  
 }
 
 export * from './components'
