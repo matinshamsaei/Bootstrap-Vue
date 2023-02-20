@@ -1,13 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { useAttrs } from 'vue'
 
 const attrs = useAttrs()
 
-const props = defineProps({
-  isText: {
-    type: Boolean,
-    default: false
-  }
+type Props = {
+  isText?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  isText: false
 })
 </script>
 

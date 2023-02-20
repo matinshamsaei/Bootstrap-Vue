@@ -1,51 +1,31 @@
-<script setup>
+<script setup lang="ts">
 import { useAttrs } from 'vue'
 
-const props = defineProps({
-  variant: {
-    type: String,
-    default: 'secondary'
-  },
-  text: String,
-  size: {
-    type: String,
-    default: 'md'
-  },
-  align: {
-    type: String,
-    default: 'start',
-    validator(value) {
-      return ['start', 'end'].includes(value)
-    }
-  },
-  dropup: {
-    type: Boolean,
-    default: false
-  },
-  dropend: {
-    type: Boolean,
-    default: false
-  },
-  dropstart: {
-    type: Boolean,
-    default: false
-  },
-  split: {
-    type: Boolean,
-    default: false
-  },
-  splitVariant: {
-    type: String,
-    default: 'secondary'
-  },
-  toggleClass: {
-    type: String,
-    default: ''
-  },
-  noCaret: {
-    type: Boolean,
-    default: false
-  }
+type Props = {
+  variant?: string
+  text?: string
+  size?: string
+  align?: 'start' | 'end'
+  dropup?: boolean
+  dropend?: boolean
+  dropstart?: boolean
+  split?: boolean
+  splitVariant?: string
+  toggleClass?: string
+  noCaret?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'secondary',
+  size: 'md',
+  align: 'start',
+  dropup: false,
+  dropend: false,
+  dropstart: false,
+  split: false,
+  splitVariant: 'secondary',
+  toggleClass: '',
+  noCaret: false
 })
 
 const alignClass = props.align && `dropdown-menu-${props.align}`
