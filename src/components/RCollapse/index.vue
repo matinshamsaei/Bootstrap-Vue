@@ -1,128 +1,74 @@
 <script setup lang="ts">
-import type { ObjectHTMLAttributes } from 'vue'
-import { useAttrs, reactive, computed, onMounted, ref, watch } from 'vue'
+import { useAttrs, reactive, computed, watch, ref, onMounted } from 'vue'
+import { Collapse } from 'bootstrap'
 
-type CollapseProps = {
-  modelValue?: boolean
-  id?: string | undefined
-  visible?: boolean
-  accordion?: boolean
-  tag?: string
-}
+const attrs = useAttrs()
 
-const collapseProps = withDefaults(defineProps<CollapseProps>(), {
-  modelValue: false,
-  id: undefined,
-  visible: false,
-  accordion: false,
-  horizontal: false,
-  tag: 'div'
-})
+const emit = defineEmits<emit>()
 
-const transitioning = ref(false)
-
-function onEnter() {
-  transitioning.value = true
-}
-
-function onAfterEnter() {
-  transitioning.value = false
-  isActive.value = true
-}
-
-function onLeave() {
-  transitioning.value = true
-}
-
-function onAfterLeave() {
-  isVisible.value = false
-  transitioning.value = false
-}
-
-const $collapseAttrs = useAttrs()
-
-const collapseAttrs = reactive({
-  ...$collapseAttrs
-})
-
-interface collapseEmit {
+interface emit {
   (e: 'updated:modelValue', val: boolean): void
 }
 
-const isActive = ref<boolean>(false)
+const element = ref<Element>()
 
-const collapseEmit = defineEmits<collapseEmit>()
+const instance = ref<Collapse>()
 
-const isVisible = computed({
+onMounted(() => {
+  instance.value = new Collapse(element.value as HTMLElement, {
+    parent: props.accordion ? `#${props.accordion}` : undefined,
+    toggle: props.toggle
+  })
+})
+
+type Props = {
+  id: string | undefined
+  modelValue?: boolean
+  visible?: boolean
+  accordion?: boolean
+  tag?: string
+  toggle?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  id: undefined,
+  modelValue: false,
+  visible: false,
+  accordion: false,
+  horizontal: false,
+  toggle: false,
+  tag: 'div'
+})
+
+const show = computed({
   get() {
-    return collapseProps.modelValue
+    return props.modelValue
   },
   set(val) {
-    collapseEmit('updated:modelValue', val)
+    emit('updated:modelValue', val)
   }
 })
 
-const collapseClass = reactive([
+watch(
+  () => show.value,
+  (val) => {
+    if (val) instance.value?.show()
+    else instance.value?.hide()
+  }
+)
+
+const componentClass = reactive([
+  'collapse',
   'mb-1',
   {
-    'collapse-horizontal': collapseProps.horizontal
+    'collapse-horizontal': props.horizontal,
+    show: props.visible
   }
 ])
-
-const height = ref<string | null>('0px')
-const collapse = ref<Element | null>(null)
-const style: ObjectHTMLAttributes = reactive({})
-
-watch(transitioning, (val) => {
-  if (val) {
-    height.value = `${collapse.value && collapse.value.scrollHeight}px`
-    style.height = height.value
-  } else {
-    delete style.height
-  }
-})
 </script>
 
 <template>
-  <Transition
-    name="height"
-    mode="out-in"
-    @enter="onEnter"
-    @after-enter="onAfterEnter"
-    @leave="onLeave"
-    @after-leave="onAfterLeave"
-  >
-    <component
-      ref="collapse"
-      v-show="isVisible"
-      :is="collapseProps.tag"
-      v-bind="collapseAttrs"
-      :class="[
-        collapseClass,
-        { show: isActive && !transitioning, collapse: !transitioning, collapsing: transitioning }
-      ]"
-      :style="style"
-    >
-      <slot />
-    </component>
-  </Transition>
+  <component ref="element" :is="props.tag" :id="props.id" v-bind="attrs" :class="componentClass">
+    <slot />
+  </component>
 </template>
-
-<style scoped>
-.collapsing {
-  position: relative;
-  transition: height 0.35s ease;
-  height: 0;
-  overflow: hidden;
-}
-
-.height-enter-active,
-.height-leave-active {
-  transition: height 0.35s ease;
-}
-
-.height-enter-from,
-.height-leave-to {
-  height: 0;
-}
-</style>
