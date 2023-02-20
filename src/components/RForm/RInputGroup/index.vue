@@ -1,23 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { useAttrs, useSlots } from 'vue'
 
-const props = defineProps({
-  size: {
-    type: String,
-    default: 'md',
-    validator(value) {
-      return ['sm', 'md', 'lg'].includes(value)
-    }
-  },
-  marginBottom: {
-    type: [String, Number],
-    default: 3,
-    validator(value) {
-      return [0, 1, 2, 3, 4, 5].includes(value || +value)
-    }
-  },
-  prepend: String,
-  append: String
+type Props = {
+  size?: 'sm' | 'md' | 'lg'
+  marginBottom?: 0 | 1 | 2 | 3 | 4 | 5 | '0' | '1' | '2' | '3' | '4' | '5'
+  prepend?: string
+  append?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 'md',
+  marginBottom: 3
 })
 
 const slots = useSlots()

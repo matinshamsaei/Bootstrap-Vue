@@ -1,12 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { useAttrs } from 'vue'
 
-const props = defineProps({
-  value: {
-    type: [String, Number, null],
-    required: true
-  }
-})
+type Props = {
+  value: string | number | boolean | null
+}
+
+const props = defineProps<Props>()
 
 const attrs = useAttrs()
 </script>
