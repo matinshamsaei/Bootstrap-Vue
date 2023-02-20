@@ -48,6 +48,8 @@ const totalRows = ref<number>(+props.totalRows)
 const perPage = ref<number>(+props.perPage)
 const currentPage = ref<number>(+props.currentPage)
 const totalPages = Math.ceil(totalRows.value / perPage.value)
+const limit = buttonsLimit.value
+const middle = Math.floor(buttonsLimit.value / 2)
 
 const update = (amount: number) => {
   emit('change', amount)
@@ -71,9 +73,7 @@ const onClickPreviousPage = () => {
 }
 
 const onClickNextPage = () => {
-  if (currentPage.value + 1 <= totalPages) {
-    update(currentPage.value + 1)
-  }
+  if (currentPage.value + 1 <= totalPages) update(currentPage.value + 1)
 }
 
 const onClickLastPage = () => {
@@ -81,13 +81,11 @@ const onClickLastPage = () => {
 }
 
 const range = (start: number, end: number) => {
+  if (buttonsLimit.value % 2 === 0) return Array.from(Array(buttonsLimit.value), (_, i) => i + start)
   return Array.from(Array(end - start + 1), (_, i) => i + start)
 }
 
 const getPages = () => {
-  const limit = buttonsLimit.value
-  const middle = Math.floor(buttonsLimit.value / 2)
-
   if (totalPages < limit) return range(1, totalPages)
 
   let start = currentPage.value - middle
