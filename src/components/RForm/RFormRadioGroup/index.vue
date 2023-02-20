@@ -48,7 +48,7 @@ const itemsForRender: any = reactive(
     id: item.props.id,
     value: item.props.value,
     disabled: item.props.disabled === '' ? true : false,
-    text: item.children.default()
+    text: item.children.default()[0].children
   }))
 )
 
@@ -62,9 +62,6 @@ const componentClass = [
   }
 ]
 
-const log = (text: unknown) => {
-  console.log(text)
-}
 </script>
 
 <template>
@@ -75,7 +72,7 @@ const log = (text: unknown) => {
     :class="componentClass"
     :name="props.name"
     :id="option[valueField]"
-    :checked="props.checked"
+    :checked="option.checked || props.checked"
     :disabled="option.disabled || props.disabled"
     :value="option[valueField]"
   >
@@ -94,7 +91,5 @@ const log = (text: unknown) => {
       class="form-check-input"
     />
     <label :for="item.value" v-html="item.text" class="form-check-label"> </label>
-
-    <button @click="log(item.text)">loggggggggggggg</button>
   </div>
 </template>
