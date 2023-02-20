@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import RFormCheckbox from '@/components/RForm/RFormCheckbox/RFormCheckbox.vue'
-import { useSlots, reactive } from 'vue'
+import { useSlots, reactive, useAttrs } from 'vue'
 
 export interface IObject {
   [key: string]: any
@@ -32,6 +32,7 @@ function getCheckbox(slots: any): any[] {
     }
     return arr
   }, [])
+  .filter((child: any) => child.type?.__name === 'RFormCheckbox')
 }
 const items = reactive(getCheckbox(slots))
 
@@ -83,14 +84,16 @@ function createModel() {
   const selectedItems = itemsForRender.filter((item: any) => item.isChecked)
   return selectedItems.map((item: any) => item.value)
 }
+
+const attrs = useAttrs()
 </script>
 
 <template>
   <fieldset>
     <legend if="props.label">{{ props.label }}</legend>
 
-    <div class="checkbox-group">
-      <r-form-checkbox
+    <div class="checkbox-group" v-bind="attrs">
+      <RFormCheckbox
         v-for="item in itemsForRender"
         v-model="item.modelValue"
         :value="valueGenerator(item)"
@@ -98,7 +101,7 @@ function createModel() {
         @change="changeHandler($event, item)"
       >
         {{ item.text ? item.text : item.value }}
-      </r-form-checkbox>
+      </RFormCheckbox>
     </div>
   </fieldset>
 </template>
