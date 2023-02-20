@@ -25,24 +25,29 @@ declare module '@vue/runtime-core' {
     RDropdownHeader: typeof Components.RDropdownHeader
     RDropdownItem: typeof Components.RDropdownItem
     RDropdownText: typeof Components.RDropdownText
+    RFormCheckbox: typeof Components.RFormCheckbox
+    RFormCheckboxGroup: typeof Components.RFormCheckboxGroup
     RFormInput: typeof Components.RFormInput
+    RFormRadioGroup: typeof Components.RFormRadioGroup
+    RFormRadio: typeof Components.RFormRadio
     RFormSelect: typeof Components.RFormSelect
     RFormSelectOption: typeof Components.RFormSelectOption
     RFormTextarea: typeof Components.RFormTextarea
-    RImg: typeof Components.RImg
     RInputGroup: typeof Components.RInputGroup
     RInputGroupAppend: typeof Components.RInputGroupAppend
     RInputGroupPrepend: typeof Components.RInputGroupPrepend
     RInputGroupText: typeof Components.RInputGroupText
+    RImg: typeof Components.RImg
     RLink: typeof Components.RLink
     RListGroup: typeof Components.RListGroup
     RListGroupItem: typeof Components.RListGroupItem
     RModal: typeof Components.RModal
     RPagination: typeof Components.RPagination
     RSidebar: typeof Components.RSidebar
-    RTab: typeof Components.RTab
     RTable: typeof Components.RTable
+    RThead: typeof Components.RThead
     RTabs: typeof Components.RTabs
+    RTab: typeof Components.RTab
   }
 
   export interface GlobalDirectives {
