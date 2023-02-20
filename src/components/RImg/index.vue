@@ -86,7 +86,7 @@ else if (imgProps.center) {
 }
 
 const imgClass = [
-  ...imgProps.class,
+  imgProps.class,
   {
     'img-fluid': imgProps.fluid,
     'img-thumbnail': imgProps.thumbnail,
