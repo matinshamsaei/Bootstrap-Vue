@@ -4,10 +4,7 @@
 
 import { useAttrs } from 'vue'
 import RFormSelectOption from './RFormSelectOption.vue'
-
-export interface IObject {
-  [key: string]: any
-}
+import type { IObject } from '@/interfaces/object'
 
 type Props = {
   modelValue: string | number | null

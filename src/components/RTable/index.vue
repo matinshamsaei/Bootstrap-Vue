@@ -2,6 +2,7 @@
 import { useSlots, onUpdated } from 'vue'
 // const RThead = defineAsyncComponent(() => import('@/components/RTable/RThead.vue'))
 import RThead from '@/components/RTable/RThead.vue'
+import type { IObject } from '@/interfaces/object'
 
 export type Props = {
   variant?: string
@@ -15,7 +16,7 @@ export type Props = {
   borderVariant?: string
   borderless?: boolean
   small?: boolean
-  items?: object[]
+  items?: IObject[]
   fields?: string[] | { key: string; label?: string; sortable?: boolean }[]
   emptyText?: string
   sortBy?: string
