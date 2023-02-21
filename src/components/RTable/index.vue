@@ -1,75 +1,50 @@
-<script setup>
+<script setup lang="ts">
+import { useSlots, onUpdated } from 'vue'
 // const RThead = defineAsyncComponent(() => import('@/components/RTable/RThead.vue'))
-import RThead from './RThead'
+import RThead from '@/components/RTable/RThead.vue'
 
-const props = defineProps({
-  variant: {
-    type: String,
-    default: ''
-  },
-  headVariant: {
-    type: String,
-    default: ''
-  },
-  rowVariant: {
-    type: String,
-    default: ''
-  },
-  cellVariant: {
-    type: String,
-    default: ''
-  },
-  striped: {
-    type: Boolean,
-    default: true
-  },
-  hover: {
-    type: Boolean,
-    default: true
-  },
-  responsive: {
-    type: Boolean,
-    default: true
-  },
-  bordered: {
-    type: Boolean,
-    default: false
-  },
-  borderVariant: {
-    type: String,
-    default: ''
-  },
-  borderless: {
-    type: Boolean,
-    default: false
-  },
-  small: {
-    type: Boolean,
-    default: false
-  },
-  items: {
-    type: Array,
-    default: []
-  },
-  fields: {
-    type: Array,
-    default: []
-  },
-  emptyText: {
-    type: String,
-    default: 'There are no records to show'
-  },
-  sortBy: {
-    type: String,
-    default: 'id'
-  },
-  sortDesc: {
-    type: Boolean,
-    default: false
-  }
+export type Props = {
+  variant?: string
+  headVariant?: string
+  rowVariant?: string
+  cellVariant?: string
+  striped?: boolean
+  hover?: boolean
+  responsive?: boolean
+  bordered?: boolean
+  borderVariant?: string
+  borderless?: boolean
+  small?: boolean
+  items?: object[]
+  fields?: string[] | { key: string; label?: string; sortable?: boolean }[]
+  emptyText?: string
+  sortBy?: string
+  sortDesc?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  variant: '',
+  headVariant: '',
+  rowVariant: '',
+  cellVariant: '',
+  striped: true,
+  hover: true,
+  responsive: true,
+  bordered: false,
+  borderVariant: '',
+  borderless: false,
+  small: false,
+  items: () => [],
+  fields: () => [],
+  emptyText: 'There are no records to show',
+  sortBy: 'id',
+  sortDesc: false
 })
 
-const emit = defineEmits(['context-changed', 'refreshed'])
+const emit = defineEmits<{
+  (e: 'context-changed', item: object): void
+  (e: 'refreshed'): void
+}>()
 
 const tableClasses = {
   [`table-${props.variant}`]: props.variant,
@@ -83,15 +58,15 @@ const tableClasses = {
 
 const responsiveClass = { 'table-responsive': props.responsive }
 
-const rowCalsses = {
+const rowClasses = {
   [`table-${props.rowVariant}`]: props.rowVariant
 }
 
-const cellCalsses = {
-  [`table-${props.cellVariant}`]: props.cellVariant
-}
+// const cellClasses = {
+//   [`table-${props.cellVariant}`]: props.cellVariant
+// }
 
-const emitContextChanged = (item) => {
+const emitContextChanged = (item: {}) => {
   emit('context-changed', item)
 }
 
@@ -108,11 +83,21 @@ onUpdated(() => {
       <RThead :table-props="props" @sort="emitContextChanged" />
 
       <tbody v-if="props.items.length">
-        <tr v-for="(item, index) in props.items" :class="rowCalsses">
-          <td v-for="(value, index) in props.fields">
-            <slot v-if="slots[value.key]" :name="value.key" :item="item" />
+        <tr v-for="item in props.items" :class="rowClasses">
+          <td v-if="props.fields.length" v-for="field in props.fields">
+            <template v-if="typeof field === 'string'">
+              {{ item[field] }}
+            </template>
 
-            <div v-else>{{ item[value.key] }}</div>
+            <template v-else>
+              <slot v-if="slots[field.key]" :name="field.key" :item="item" />
+
+              <div v-else>{{ item[field.key] }}</div>
+            </template>
+          </td>
+
+          <td v-else v-for="field in Object.keys(item)">
+            {{ item[field] }}
           </td>
         </tr>
       </tbody>

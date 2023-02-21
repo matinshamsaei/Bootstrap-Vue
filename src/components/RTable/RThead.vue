@@ -1,33 +1,59 @@
-<script setup>
-const props = defineProps(['tableProps'])
+<script setup lang="ts">
+import { reactive, onMounted, type HTMLAttributes } from 'vue'
+import type { Props as TableProps } from './index.vue'
+
+type Props = {
+  tableProps: TableProps
+}
+
+type Field = {
+  key?: string
+  label?: string
+  sortable?: boolean
+  sortType?: string
+  class?: string
+  thStyle?: string
+  style?: string
+  classes?: HTMLAttributes['class']
+}
+
+const props = defineProps<Props>()
 const { fields, items, headVariant, cellVariant, rowVariant, sortBy, sortDesc } = props.tableProps
 
-let tableHeaderItems = reactive([])
+let tableHeaderItems: Field[] = reactive([])
 
 renderTableHeaders()
 
 function renderTableHeaders() {
-  if (fields.length) tableHeaderItems.push(...fieldsCompleter())
+  if (fields && fields.length) tableHeaderItems.push(...fieldsCompleter())
   else tableHeaderItems.push(...keysCompleter())
 }
 
-function fieldsCompleter() {
-  return props.tableProps.fields.map((field) => {
-    const sampleItem = {
-      key: field.key,
-      label: field.label,
-      sortable: field.sortable ? field.sortable : false,
-      sortType: 'none',
-      classes: { sortable: field.sortable, [field.class]: field.class, [`table-${cellVariant}`]: cellVariant },
-      style: field.thStyle
-    }
-    return sampleItem
-  })
+function fieldsCompleter(): Field[] {
+  if (fields?.length)
+    return fields.map((field: Field) => {
+      const sampleItem = {
+        key: field.key,
+        label: field.label,
+        sortable: field.sortable ? field.sortable : false,
+        sortType: 'none',
+        classes: classRender(field),
+        style: field.thStyle
+      }
+      return sampleItem
+    })
+  return []
 }
 
-function keysCompleter() {
-  const HeaderItemsKey = Object.keys(items[0])
-  HeaderItemsKey.map((item) => {
+function classRender(field: Field): object {
+  if (field.key === sortBy)
+    return { sortable: true, [`${field.class}`]: field.class, [`table-${cellVariant}`]: cellVariant }
+  else return { sortable: field.sortable, [`${field.class}`]: field.class, [`table-${cellVariant}`]: cellVariant }
+}
+
+function keysCompleter(): Field[] {
+  const HeaderItemsKey = items?.length ? Object.keys(items[0]) : []
+  return HeaderItemsKey.map((item) => {
     const sampleItem = {
       key: item,
       sortable: false,
@@ -40,9 +66,9 @@ function keysCompleter() {
 
 const emit = defineEmits(['sort'])
 
-const tableHeaderNormalizer = (item) => {
+const tableHeaderNormalizer = (item: Field | string) => {
   if (typeof item === 'string') return item.replace('_', ' ')
-  return item.label === undefined ? item.key.replace('_', ' ') : item.label
+  return item.label === undefined ? item.key?.replace('_', ' ') : item.label
 }
 
 const headClasses = {
@@ -53,7 +79,7 @@ const rowClasses = {
   [`table-${rowVariant}`]: rowVariant
 }
 
-function toggleSort(item) {
+function toggleSort(item: Field) {
   if (item.sortable) {
     if (item.sortType === 'none') {
       resetSortClasses()
@@ -71,26 +97,29 @@ function toggleSort(item) {
 }
 
 function resetSortClasses() {
-  tableHeaderItems.forEach((item) => (item.sortType = 'none'))
+  tableHeaderItems.forEach((item: Field) => (item.sortType = 'none'))
 }
 
 onMounted(() => {
   if (sortBy && checkIdExistence()) {
-    const itemSelected = tableHeaderItems.find((item) => item.key === sortBy)
-    if (sortDesc) itemSelected.sortType = 'desc'
-    else itemSelected.sortType = 'asc'
+    const itemSelected = tableHeaderItems.find((item: Field) => item.key === sortBy)
+    if (itemSelected) {
+      if (sortDesc) itemSelected.sortType = 'desc'
+      else itemSelected.sortType = 'asc'
+    }
     emit('sort', itemSelected)
   }
 })
 
 function checkIdExistence() {
-  return fields.find((field) => field.key === 'id')
+  if (fields?.length && typeof fields[0] === 'string') return fields.find((field: string) => field === 'id')
+  return fields?.find((field: Field) => field.key === 'id')
 }
 </script>
 
 <template>
   <thead :class="headClasses">
-    <tr v-if="fields.length" :class="rowClasses">
+    <tr v-if="fields?.length" :class="rowClasses">
       <th
         v-for="item in tableHeaderItems"
         :style="item.style"
