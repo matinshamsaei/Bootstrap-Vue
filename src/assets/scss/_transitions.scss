@@ -7,3 +7,53 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+/////////////SideBar Transition////////////////
+
+///////left side
+
+.left-enter-active,
+.left-leave-active {
+  transition: all 0.5s linear !important;
+  left: 0px !important;
+  overflow: hidden !important;
+}
+
+.left-enter-from,
+.left-leave-to {
+  left: -400px !important;
+}
+
+.offcanvas-start.close {
+  transition: all 0.5s linear !important;
+  left: -400px !important;
+}
+
+///////right side
+
+.right-enter-active,
+.right-leave-active {
+  transition: all 0.5s linear !important;
+  right: 0px !important;
+  overflow: hidden !important;
+}
+
+.right-enter-from,
+.right-leave-to {
+  right: -400px !important;
+}
+
+.offcanvas-end.close {
+  transition: all 0.5s linear !important;
+  right: -400px !important;
+}
+
+/////////////backDrop
+
+.offcanvas-backdrop.show {
+  opacity: 0.5;
+}
+
+.fade {
+  transition: opacity 0.15s linear;
+}

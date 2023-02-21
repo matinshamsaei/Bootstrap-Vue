@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAttrs } from 'vue'
 
-export interface Props {
+type Props = {
   to?: string
   href?: string
   target?: '_self' | '_blank' | '_parent' | '_top' | 'framename'
