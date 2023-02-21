@@ -3,9 +3,15 @@ import { computed, ref, useAttrs } from 'vue'
 
 const attrs = useAttrs()
 
-const emit = defineEmits(['change'])
+interface Emit {
+  (e: 'change', value: any): void
+  (e: 'update:modelValue', value: any): void
+}
+
+const emit = defineEmits<Emit>()
 
 type Props = {
+  modelValue?: number | string
   totalRows: number | string
   perPage: number | string
   limit?: number | string // limit to visible page buttons
@@ -46,7 +52,6 @@ const roundedClass = {
 const buttonsLimit = ref<number>(+props.limit)
 const totalRows = ref<number>(+props.totalRows)
 const perPage = ref<number>(+props.perPage)
-const currentPage = ref<number>(+props.currentPage)
 const totalPages = Math.ceil(totalRows.value / perPage.value)
 const limit = buttonsLimit.value
 const middle = Math.floor(buttonsLimit.value / 2)
@@ -58,7 +63,18 @@ const update = (amount: number) => {
 
 const updateCurrentPage = (amount: number) => {
   currentPage.value = amount
+  emit('update:modelValue', amount)
 }
+
+const currentPage = computed<number>({
+  get() {
+    if(props.modelValue) return +props.modelValue
+    return +props.currentPage
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
 
 const onClickStartPage = () => {
   update(1)
