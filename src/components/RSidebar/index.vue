@@ -2,7 +2,6 @@
 import { useAttrs, reactive, computed } from 'vue'
 import type { HTMLAttributes } from 'vue'
 import RButton from '@/components/RButton/index.vue'
-import { tsUndefinedKeyword } from '@babel/types';
 
 type Props = {
   modelValue?: boolean
