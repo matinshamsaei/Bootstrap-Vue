@@ -34,12 +34,12 @@ const attrs = reactive({
 
 const componentClass = [
   'alert',
-  `alert-${props.variant}`,
-  `text-${props.align}`,
-  `btn-${props.closeButtonSize}`,
   {
     'alert-dismissible': props.dismissible,
-    [`${props.animation}`]: props.animation
+    [`${props.animation}`]: props.animation,
+    [`alert-${props.variant}`]: props.variant,
+    [`text-${props.align}`]: props.align,
+    [`btn-${props.closeButtonSize}`]: props.closeButtonSize
   },
   'show'
 ]

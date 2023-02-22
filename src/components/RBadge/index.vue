@@ -26,8 +26,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const componentClass = [
   'badge',
-  `text-bg-${props.variant}`,
   {
+    [`text-bg-${props.variant}`]: props.variant,
     'rounded-pill': props.pill
   }
 ]
