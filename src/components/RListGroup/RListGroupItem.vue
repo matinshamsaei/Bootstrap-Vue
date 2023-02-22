@@ -23,8 +23,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const componentClass = [
   'list-group-item',
-  `list-group-item-${props.variant}`,
   {
+    [`list-group-item-${props.variant}`]: props.variant,
     disabled: props.disabled,
     active: props.active
   }
