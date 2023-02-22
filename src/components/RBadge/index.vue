@@ -11,17 +11,15 @@ type Props = {
   tag?: 'span' | 'a'
   target?: '_self' | '_blank' | '_parent' | '_top' | 'framename'
   pill?: boolean
-  to?: string | null
-  href?: string | null
+  to?: string
+  href?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'success',
   tag: 'span',
   target: '_self',
-  pill: false,
-  to: null,
-  href: null
+  pill: false
 })
 
 const componentClass = [
