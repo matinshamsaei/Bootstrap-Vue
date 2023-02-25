@@ -63,10 +63,6 @@ const rowClasses = {
   [`table-${props.rowVariant}`]: props.rowVariant
 }
 
-// const cellClasses = {
-//   [`table-${props.cellVariant}`]: props.cellVariant
-// }
-
 const emitContextChanged = (item: {}) => {
   emit('context-changed', item)
 }

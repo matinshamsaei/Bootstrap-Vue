@@ -112,8 +112,8 @@ onMounted(() => {
 })
 
 function checkIdExistence() {
-  if (fields?.length && typeof fields[0] === 'string') return fields.find((field: string) => field === 'id')
-  return fields?.find((field: Field) => field.key === 'id')
+  if (fields?.length && typeof fields[0] === 'string') return (fields as any[]).find((field: string) => field === 'id')
+  return (fields as any[])?.find((field: Field) => field.key === 'id')
 }
 </script>
 
