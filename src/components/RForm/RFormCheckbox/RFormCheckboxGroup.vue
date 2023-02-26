@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import RFormCheckbox from '@/components/RForm/RFormCheckbox/RFormCheckbox.vue'
 import { useSlots, reactive, useAttrs } from 'vue'
-
-export interface IObject {
-  [key: string]: any
-}
+import type { IObject } from '@/interfaces/object'
 
 type Props = {
   label: string
