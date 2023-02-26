@@ -34,13 +34,13 @@ const props = withDefaults(defineProps<Props>(), {
 
 const componentClass = [
   'btn',
-  `btn-${props.size}`,
-  `btn-${props.variant}`,
   {
     'rounded-0': props.squared,
     'rounded-pill': props.pill,
     disabled: props.disabled,
-    'd-block w-100': props.block
+    'd-block w-100': props.block,
+    [`btn-${props.size}`]: props.size,
+    [`btn-${props.variant}`]: props.variant
   }
 ]
 
