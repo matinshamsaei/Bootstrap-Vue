@@ -62,9 +62,9 @@ const backDropHide = () => {
 
 const componentClass = [
   'offcanvas',
-  `bg-${props.bgVariant}`,
-  `text-${props.textVariant}`,
   {
+    [`bg-${props.bgVariant}`]: props.bgVariant,
+    [`text-${props.textVariant}`]: props.textVariant,
     'offcanvas-start': !props.end,
     'offcanvas-end': props.end,
     shadow: props.shadow
