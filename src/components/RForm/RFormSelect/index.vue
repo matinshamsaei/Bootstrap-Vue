@@ -32,12 +32,12 @@ onMounted(() => {
 
 const value = (option: IObject | number | string) => {
   if (typeof option === 'object') return option[props.valueField]
-  else if (typeof option === 'number' || 'string') return option
+  return option
 }
 
 const text = (option: IObject | number | string) => {
   if (typeof option === 'object') return option[props.textField]
-  else if (typeof option === 'number' || 'string') return option
+  return option
 }
 
 const disabled = (option: IObject | number | string) => {
@@ -56,7 +56,7 @@ const disabled = (option: IObject | number | string) => {
     :class="`form-select-${props.size}`"
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
   >
-    <template v-for="option in props.options">
+    <template v-if="props.options" v-for="option in props.options">
       <RFormSelectOption :value="value(option)" :disabled="disabled(option)">
         {{ text(option) }}
       </RFormSelectOption>
