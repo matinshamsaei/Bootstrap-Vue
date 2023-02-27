@@ -9,6 +9,7 @@ type Props = {
   disabled?: boolean
   value?: CheckboxValueType
   uncheckedValue?: CheckboxValueType
+  switch?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -59,7 +60,7 @@ const attrs = useAttrs()
 </script>
 
 <template>
-  <div class="form-check" v-bind="attrs">
+  <div class="form-check" :class="{'form-switch': props.switch}" v-bind="attrs">
     <input
       class="form-check-input"
       type="checkbox"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
-import { useAttrs, computed } from 'vue'
+import { useAttrs, computed, onMounted, ref } from 'vue'
 
 type Props = {
   modelValue: string | number
@@ -8,13 +8,15 @@ type Props = {
   size?: 'sm' | 'md' | 'lg'
   plainText?: boolean
   debounce?: string | number
+  autoFocus?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   size: 'md',
   plainText: false,
-  debounce: '300'
+  debounce: '300',
+  autoFocus: false
 })
 
 const emits = defineEmits<{
@@ -34,10 +36,17 @@ const inputClass = computed(() => {
 })
 
 const attrs = useAttrs()
+
+const input = ref<HTMLInputElement | null>(null)
+
+onMounted(() => {
+  if (props.autoFocus) input.value?.focus()
+})
 </script>
 
 <template>
   <input
+    ref="input"
     :type="props.type"
     :value="props.modelValue"
     v-bind="attrs"
