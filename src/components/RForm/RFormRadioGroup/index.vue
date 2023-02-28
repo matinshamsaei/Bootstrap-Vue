@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import RFormRadio from '@/components/RForm/RFormRadioGroup/RFormRadio.vue'
 import { useAttrs, reactive, useSlots } from 'vue'
-
-export interface IObject {
-  [key: string]: any
-}
+import type { IObject } from '@/interfaces/object'
 
 const attrs = useAttrs()
 
