@@ -13,6 +13,7 @@ type Props = {
   splitVariant?: string
   toggleClass?: string
   noCaret?: boolean
+  menuClass?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -66,13 +67,14 @@ const attrs = useAttrs()
       type="button"
       data-bs-toggle="dropdown"
       aria-expanded="false"
+      data-bs-auto-close="outside"
     >
       <template v-if="!props.split">
         <slot name="button-content" v-if="!props.text" />
         {{ props.text }}
       </template>
     </button>
-    <ul class="dropdown-menu" :class="alignClass">
+    <ul class="dropdown-menu" :class="[alignClass, menuClass]">
       <slot />
     </ul>
   </div>
