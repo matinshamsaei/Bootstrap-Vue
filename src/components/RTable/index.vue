@@ -45,6 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: 'context-changed', item: object): void
   (e: 'refreshed'): void
+  (e: 'row-contextmenu', value: object): void
 }>()
 
 const tableClasses = {
@@ -67,6 +68,10 @@ const emitContextChanged = (item: {}) => {
   emit('context-changed', item)
 }
 
+const emitContextMenu = (arg: object) => {
+  emit('row-contextmenu', arg)
+}
+
 const slots = useSlots()
 
 onUpdated(() => {
@@ -80,7 +85,11 @@ onUpdated(() => {
       <RThead :table-props="props" @sort="emitContextChanged" />
 
       <tbody v-if="props.items.length">
-        <tr v-for="item in props.items" :class="rowClasses">
+        <tr
+          v-for="(item, index) in props.items"
+          :class="rowClasses"
+          @contextmenu="emitContextMenu({item, index, $event})"
+        >
           <td v-if="props.fields.length" v-for="field in props.fields">
             <template v-if="typeof field === 'string'">
               {{ item[field] }}
