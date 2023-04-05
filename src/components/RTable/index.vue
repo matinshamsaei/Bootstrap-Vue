@@ -46,6 +46,7 @@ const emit = defineEmits<{
   (e: 'context-changed', item: object): void
   (e: 'refreshed'): void
   (e: 'row-contextmenu', value: object): void
+  (e: 'row-selected', value: object[]):void
 }>()
 
 const tableClasses = {
@@ -89,6 +90,7 @@ onUpdated(() => {
           v-for="(item, index) in props.items"
           :class="rowClasses"
           @contextmenu="emitContextMenu({item, index, $event})"
+          @click="emit('row-selected', [item])"
         >
           <td v-if="props.fields.length" v-for="field in props.fields">
             <template v-if="typeof field === 'string'">
