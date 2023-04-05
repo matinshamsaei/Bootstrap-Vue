@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import RLink from '@/components/RLink/index.vue';
-import { useAttrs } from 'vue'
+import { useAttrs, computed } from 'vue'
+import RLink from '@/components/RLink/index.vue'
 
 const attrs = useAttrs()
 
@@ -21,14 +21,14 @@ const props = withDefaults(defineProps<Props>(), {
   tag: 'li'
 })
 
-const componentClass = [
+const componentClass = computed(() => [
   'list-group-item',
   {
     [`list-group-item-${props.variant}`]: props.variant,
     disabled: props.disabled,
     active: props.active
   }
-]
+])
 </script>
 
 <template>
