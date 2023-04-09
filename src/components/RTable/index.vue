@@ -21,6 +21,7 @@ export type Props = {
   emptyText?: string
   sortBy?: string
   sortDesc?: boolean
+  tbodyTrClass?: string | [] | Function
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -46,7 +47,7 @@ const emit = defineEmits<{
   (e: 'context-changed', item: object): void
   (e: 'refreshed'): void
   (e: 'row-contextmenu', value: object): void
-  (e: 'row-selected', value: object[]):void
+  (e: 'row-selected', value: object[]): void
 }>()
 
 const tableClasses = {
@@ -63,6 +64,11 @@ const responsiveClass = { 'table-responsive': props.responsive }
 
 const rowClasses = {
   [`table-${props.rowVariant}`]: props.rowVariant
+}
+
+function setTbodyTrClasses(item: any) {
+  if (typeof props.tbodyTrClass === 'function') return props.tbodyTrClass(item)
+  else return props.tbodyTrClass
 }
 
 const emitContextChanged = (item: {}) => {
@@ -88,8 +94,8 @@ onUpdated(() => {
       <tbody v-if="props.items.length">
         <tr
           v-for="(item, index) in props.items"
-          :class="rowClasses"
-          @contextmenu="emitContextMenu({item, index, $event})"
+          :class="[rowClasses,setTbodyTrClasses(item)]"
+          @contextmenu="emitContextMenu({ item, index, $event })"
           @click="emit('row-selected', [item])"
         >
           <td v-if="props.fields.length" v-for="field in props.fields">

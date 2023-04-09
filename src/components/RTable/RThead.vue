@@ -30,7 +30,19 @@ function renderTableHeaders() {
 }
 
 function fieldsCompleter(): Field[] {
-  if (fields?.length)
+  if (fields?.length && typeof fields[0] === 'string')
+    return fields.map((field: Field) => {
+      const sampleItem = {
+        key: field,
+        label: undefined,
+        sortable: false,
+        sortType: 'none',
+        classes: '',
+        style: ''
+      }
+      return sampleItem
+    })
+  else if (fields?.length)
     return fields.map((field: Field) => {
       const sampleItem = {
         key: field.key,
@@ -66,8 +78,7 @@ function keysCompleter(): Field[] {
 
 const emit = defineEmits(['sort'])
 
-const tableHeaderNormalizer = (item: Field | string) => {
-  if (typeof item === 'string') return item.replace('_', ' ')
+const tableHeaderNormalizer = (item: Field) => {
   return item.label === undefined ? item.key?.replace('_', ' ') : item.label
 }
 
