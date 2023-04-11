@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSlots, onUpdated, computed, type HTMLAttributes } from 'vue'
+import { useSlots, onUpdated, computed } from 'vue'
 // const RThead = defineAsyncComponent(() => import('@/components/RTable/RThead.vue'))
 import RThead from '@/components/RTable/RThead.vue'
 import type { IObject } from '@/interfaces/object'
@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
   sortBy: 'id',
   sortDesc: false,
   busy: false,
-  showEmpty: false,
+  showEmpty: true,
   emptyText: 'There are no records to show'
 })
 
@@ -53,7 +53,7 @@ const emit = defineEmits<{
   (e: 'sort-changed', item: object): void
   (e: 'refreshed'): void
   (e: 'row-contextmenu', item: object): void
-  (e: 'row-clicked', item: object[]): void
+  (e: 'row-clicked', item: object): void
 }>()
 
 const tableClasses = computed(() => ({
@@ -86,7 +86,7 @@ const emitContextMenu = (arg: object) => {
 }
 
 const emitRowClicked = (item: object) => {
-  emit('row-clicked', [item])
+  emit('row-clicked', item)
 }
 
 const slots = useSlots()
