@@ -6,6 +6,11 @@ type Props = {
   tableProps: TableProps
 }
 
+const props = defineProps<Props>()
+const { fields, items, sortBy, sortDesc } = props.tableProps
+
+const emit = defineEmits(['sort'])
+
 type Field = {
   key?: string
   label?: string
@@ -17,9 +22,6 @@ type Field = {
   classes?: HTMLAttributes['class']
 }
 
-const props = defineProps<Props>()
-const { fields, items, headVariant, cellVariant, rowVariant, sortBy, sortDesc } = props.tableProps
-
 let tableHeaderItems: Field[] = reactive([])
 
 renderTableHeaders()
@@ -30,7 +32,19 @@ function renderTableHeaders() {
 }
 
 function fieldsCompleter(): Field[] {
-  if (fields?.length)
+  if (fields?.length && typeof fields[0] === 'string')
+    return fields.map((field: any) => {
+      const sampleItem = {
+        key: field,
+        label: undefined,
+        sortable: false,
+        sortType: 'none',
+        classes: '',
+        style: ''
+      }
+      return sampleItem
+    })
+  else if (fields?.length)
     return fields.map((field: Field) => {
       const sampleItem = {
         key: field.key,
@@ -46,9 +60,8 @@ function fieldsCompleter(): Field[] {
 }
 
 function classRender(field: Field): object {
-  if (field.key === sortBy)
-    return { sortable: true, [`${field.class}`]: field.class, [`table-${cellVariant}`]: cellVariant }
-  else return { sortable: field.sortable, [`${field.class}`]: field.class, [`table-${cellVariant}`]: cellVariant }
+  if (field.key === sortBy) return { sortable: true, [`${field.class}`]: field.class }
+  else return { sortable: field.sortable, [`${field.class}`]: field.class }
 }
 
 function keysCompleter(): Field[] {
@@ -57,30 +70,18 @@ function keysCompleter(): Field[] {
     const sampleItem = {
       key: item,
       sortable: false,
-      sortType: 'none',
-      classes: { [`table-${cellVariant}`]: cellVariant }
+      sortType: 'none'
     }
     return sampleItem
   })
 }
 
-const emit = defineEmits(['sort'])
-
-const tableHeaderNormalizer = (item: Field | string) => {
-  if (typeof item === 'string') return item.replace('_', ' ')
+const tableHeaderNormalizer = (item: Field) => {
   return item.label === undefined ? item.key?.replace('_', ' ') : item.label
 }
 
-const headClasses = {
-  [`table-${headVariant}`]: headVariant
-}
-
-const rowClasses = {
-  [`table-${rowVariant}`]: rowVariant
-}
-
 function toggleSort(item: Field) {
-  if (item.sortable) {
+  if (!props.tableProps.busy && item.sortable) {
     if (item.sortType === 'none') {
       resetSortClasses()
       item.sortType = 'asc'
@@ -118,8 +119,8 @@ function checkIdExistence() {
 </script>
 
 <template>
-  <thead :class="headClasses">
-    <tr v-if="fields?.length" :class="rowClasses">
+  <thead>
+    <tr v-if="fields?.length">
       <th
         v-for="item in tableHeaderItems"
         :style="item.style"
@@ -130,7 +131,7 @@ function checkIdExistence() {
       </th>
     </tr>
 
-    <tr v-else :class="rowClasses">
+    <tr v-else>
       <th
         v-for="item in tableHeaderItems"
         :class="[item.classes, `sortable-${item.sortType}`]"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAttrs } from 'vue'
+import { useAttrs, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import RLink from '@/components/RLink/index.vue'
 
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
   tag: 'button'
 })
 
-const componentClass = [
+const componentClass = computed(() => [
   'btn',
   {
     'rounded-0': props.squared,
@@ -42,7 +42,7 @@ const componentClass = [
     [`btn-${props.size}`]: props.size,
     [`btn-${props.variant}`]: props.variant
   }
-]
+])
 
 const clickHandler = (props: Pick<Props, 'to' | 'href'>) => {
   if (props.to) router.push(`/${props.to}`)
