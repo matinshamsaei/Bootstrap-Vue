@@ -1,27 +1,14 @@
 # routaa-ui-kit
 
-This template should help get you started developing with Vue 3 in Vite.
+This library based on the world's most popular frameworks - Bootstrap V5, Vue V3, Vite V4 And TypeScript. This Application Use For Routaa Vue 3 Project.
+with more than 40 component, several directives.
 
-## Recommended IDE Setup
+## Quick start
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- Clone the repo `http://192.168.7.152/matin/routaa/modules/front/routaa-ui-kit.git`
+- Install with [npm](https://www.npmjs.com/) `npm install @routaa/ui-kit@v1.2.1`
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## Project install
 
 ```sh
 npm install
@@ -30,7 +17,7 @@ npm install
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+npm run serve
 ```
 
 ### Type-Check, Compile and Minify for Production
@@ -39,8 +26,16 @@ npm run dev
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Use Project
+
+For use project you can import the component name start  R .
+
+For example: 
 
 ```sh
-npm run test:unit
+import {RCard} from '@routaa/ui-kit'
+import {RButton} from '@routaa/ui-kit'
 ```
+More common components are table, card, modal, mutton, form and tabs.
+
+More common directives are popover, tooltip and toggle.
